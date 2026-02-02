@@ -31,30 +31,27 @@ const regionMap = computed(() => {
   return m
 })
 
-function setActive(id) {
+function setActive(id, name) {
   emit('update:modelValue', id)
-  emit('select', id)
-  // applyActiveClass отработает через watch на modelValue
+  emit('select', { id, name }) // <-- важно: отдаём объект
+  // подсветка обновится через watch
 }
 
 function applyActiveClass() {
   const root = host.value
   if (!root) return
 
-  const paths = root.querySelectorAll('path[fill]:not([fill="none"])')
+  const paths = root.querySelectorAll('path[id]')
   paths.forEach((p) => {
-    p.classList.toggle('is-active', p.dataset.rid === activeId.value)
+    p.classList.toggle('is-active', p.id === (props.modelValue || ''))
   })
 }
 
-function showTooltip(e, id) {
-  const r = regionMap.value.get(id)
-  if (!r) return
-
+function showTooltip(e, id, name) {
   tooltip.value.visible = true
   tooltip.value.x = e.clientX
   tooltip.value.y = e.clientY
-  tooltip.value.region = r
+  tooltip.value.region = { id, name }
 }
 
 function moveTooltip(e) {
@@ -75,19 +72,18 @@ onMounted(async () => {
   if (!root) return
 
   // найдём все кликабельные path по id
-  const paths = root.querySelectorAll('path[fill]:not([fill="none"])')
+  const paths = root.querySelectorAll('path[id]')
 
-  paths.forEach((p, i) => {
+  paths.forEach((p) => {
     p.classList.add('region')
 
-    // генерируем стабильный id для кликов
-    const rid = p.id || p.getAttribute('data-region') || `r-${i + 1}`
-    p.dataset.rid = rid
+    const id = p.id
+    const name = p.getAttribute('title') || id
 
-    p.addEventListener('mouseenter', (e) => showTooltip(e, rid))
+    p.addEventListener('mouseenter', (e) => showTooltip(e, id, name))
     p.addEventListener('mousemove', (e) => moveTooltip(e))
     p.addEventListener('mouseleave', hideTooltip)
-    p.addEventListener('click', () => setActive(rid))
+    p.addEventListener('click', () => setActive(id, name))
   })
 
   applyActiveClass()
@@ -113,7 +109,7 @@ onMounted(async () => {
       </div>
 
       <div class="mt-4 rounded-2xl bg-slate-50 p-3">
-        <div ref="host" class="[&_svg]:w-full [&_svg]:h-auto [&_svg]:block" v-html="mapSvgRaw" />
+        <div ref="host" class="[&_svg]:w-auto [&_svg]:h-auto [&_svg]:block" v-html="mapSvgRaw" />
       </div>
 
       <div class="mt-4 text-xs text-slate-500">
@@ -139,6 +135,8 @@ onMounted(async () => {
 :deep(svg) {
   user-select: none;
   pointer-events: none;
+  width: 100%;
+  height: 320px;
 }
 :deep(svg *) {
   pointer-events: auto;

@@ -2,10 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
 @layer components {
-  .container-app { @apply mx-auto w-full max-w-[1120px] px-4 sm:px-6; }
+  .container-app {
+    @apply mx-auto w-full max-w-[1120px] px-4 sm:px-6;
+  }
 
   .btn-primary {
     @apply inline-flex h-11 items-center justify-center rounded-xl bg-blue-600 px-5 font-semibold text-white
@@ -19,5 +19,8 @@
 
   .card {
     @apply rounded-2xl bg-white shadow-[0_12px_36px_rgba(0,0,0,0.10)] ring-1 ring-black/5;
+  }
+  div {
+    cursor: default;
   }
 }
