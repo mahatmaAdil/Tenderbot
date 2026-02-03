@@ -1,10 +1,10 @@
 <script setup>
-import { computed, nextTick, onMounted, ref, watch } from 'vue'
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import mapSvgRaw from '../assets/map.svg?raw'
 import { regions } from '../data/regions'
 
 const props = defineProps({
-  modelValue: { type: String, default: '' }, // выбранный регион снаружи (optional)
+  modelValue: { type: String, default: '' },
 })
 
 const emit = defineEmits(['update:modelValue', 'select'])
@@ -12,12 +12,9 @@ const emit = defineEmits(['update:modelValue', 'select'])
 const host = ref(null)
 const activeId = computed(() => props.modelValue || '')
 
-watch(
-  () => props.modelValue,
-  () => applyActiveClass(),
-  { immediate: true },
-)
-
+/* =====================
+   TOOLTIP STATE
+===================== */
 const tooltip = ref({
   visible: false,
   x: 0,
@@ -25,124 +22,166 @@ const tooltip = ref({
   region: null,
 })
 
+/* =====================
+   DATA
+===================== */
 const regionMap = computed(() => {
   const m = new Map()
-  regions.forEach((r) => m.set(r.id, r))
+  regions.forEach((r) => m.set(r.svgId, r))
   return m
 })
 
-function setActive(id, name) {
+/* =====================
+   ACTIVE REGION
+===================== */
+function setActive(id, name, tenders) {
   emit('update:modelValue', id)
-  emit('select', { id, name }) // <-- важно: отдаём объект
-  // подсветка обновится через watch
+  emit('select', { id, name, tenders })
 }
 
+/* =====================
+   SVG CLASSES
+===================== */
 function applyActiveClass() {
   const root = host.value
   if (!root) return
 
-  const paths = root.querySelectorAll('path[id]')
-  paths.forEach((p) => {
-    p.classList.toggle('is-active', p.id === (props.modelValue || ''))
+  root.querySelectorAll('path[id]').forEach((p) => {
+    p.classList.toggle('is-active', p.id === activeId.value)
   })
 }
 
-function showTooltip(e, id, name) {
+watch(activeId, applyActiveClass, { immediate: true })
+
+/* =====================
+   TOOLTIP LOGIC (CLICK)
+===================== */
+function openTooltip(e, region) {
+  e.stopPropagation()
+
   tooltip.value.visible = true
   tooltip.value.x = e.clientX
   tooltip.value.y = e.clientY
-  tooltip.value.region = { id, name }
+  tooltip.value.region = region
 }
 
-function moveTooltip(e) {
-  if (!tooltip.value.visible) return
-  tooltip.value.x = e.clientX
-  tooltip.value.y = e.clientY
-}
-
-function hideTooltip() {
+function closeTooltip() {
   tooltip.value.visible = false
 }
 
+/* =====================
+   MOUNT
+===================== */
 onMounted(async () => {
-  // ждём пока v-html вставит SVG
   await nextTick()
 
   const root = host.value
   if (!root) return
 
-  // найдём все кликабельные path по id
+  const svg = root.querySelector('svg')
+  if (svg) {
+    svg.setAttribute('preserveAspectRatio', 'xMidYMid meet')
+
+    if (!svg.getAttribute('viewBox')) {
+      const w = parseFloat(svg.getAttribute('width') || '0')
+      const h = parseFloat(svg.getAttribute('height') || '0')
+      if (w > 0 && h > 0) svg.setAttribute('viewBox', `0 0 ${w} ${h}`)
+    }
+  }
+
+  // ✅ ВОЗВРАЩАЕМ КЛАССЫ И КЛИКИ
   const paths = root.querySelectorAll('path[id]')
 
   paths.forEach((p) => {
     p.classList.add('region')
 
     const id = p.id
-    const name = p.getAttribute('title') || id
+    const r = regionMap.value.get(id)
 
-    p.addEventListener('mouseenter', (e) => showTooltip(e, id, name))
-    p.addEventListener('mousemove', (e) => moveTooltip(e))
-    p.addEventListener('mouseleave', hideTooltip)
-    p.addEventListener('click', () => setActive(id, name))
+    const region = {
+      id,
+      name: r?.name || id,
+      tenders: Number(r?.tenders ?? 0),
+    }
+
+    p.addEventListener('click', (e) => {
+      e.stopPropagation()
+      setActive(region.id, region.name, region.tenders)
+      openTooltip(e, region)
+    })
   })
 
+  // ✅ клик вне карты закрывает tooltip
+  document.addEventListener('click', closeTooltip)
+
+  // ✅ подсветка выбранного региона
   applyActiveClass()
+})
+
+onUnmounted(() => {
+  document.removeEventListener('click', closeTooltip)
 })
 </script>
 
 <template>
   <div class="relative">
-    <!-- карта -->
-    <div class="card overflow-hidden p-4 sm:p-5">
+    <!-- CARD -->
+    <div class="flex flex-col">
+      <!-- HEADER -->
       <div class="flex items-center justify-between">
         <div>
-          <div class="text-sm font-semibold text-slate-900">Карта Казахстана</div>
-          <div class="text-xs text-slate-500">Нажмите на регион</div>
+          <div class="text-sm font-semibold text-slate-900">Карта тендеров в Казахстане</div>
+          <div class="text-xs text-slate-500">
+            Наведите курсор мыши на область, чтобы узнать о проводимых тендерах
+          </div>
         </div>
 
         <div
           v-if="activeId"
           class="rounded-xl bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700"
         >
-          Выбрано: {{ regionMap.get(activeId)?.name || activeId }}
+          Выбрано:
+          {{ regionMap.get(activeId)?.name || activeId }}
         </div>
       </div>
-
-      <div class="mt-4 rounded-2xl bg-slate-50 p-3">
-        <div ref="host" class="[&_svg]:w-auto [&_svg]:h-auto [&_svg]:block" v-html="mapSvgRaw" />
-      </div>
-
-      <div class="mt-4 text-xs text-slate-500">
-        Подсказка: если какой-то регион не реагирует — проверь, что у его
-        <code>path</code> есть <code>id</code>.
-      </div>
+      <div ref="host" class="mt-4 w-full" v-html="mapSvgRaw"></div>
     </div>
 
-    <!-- tooltip -->
+    <!-- TOOLTIP -->
     <div
       v-if="tooltip.visible"
-      class="pointer-events-none fixed z-50 min-w-[160px] rounded-xl bg-white px-3 py-2 text-xs shadow-xl ring-1 ring-black/10"
+      class="fixed z-50 min-w-[180px] rounded-xl bg-white px-3 py-3 text-xs shadow-xl ring-1 ring-black/10"
       :style="{ left: tooltip.x + 12 + 'px', top: tooltip.y + 12 + 'px' }"
+      @click.stop
     >
-      <div class="font-bold text-slate-900">{{ tooltip.region?.name }}</div>
-      <div class="text-slate-500">{{ tooltip.region?.tenders }} тендеров</div>
+      <div class="font-bold text-slate-900">
+        {{ tooltip.region?.name }}
+      </div>
+
+      <div class="mt-1 text-lg font-bold text-blue-700">{{ tooltip.region?.tenders }} тендеров</div>
+
+      <button
+        type="button"
+        class="mt-3 inline-flex w-full items-center justify-center rounded-lg bg-blue-600 px-3 py-2 text-xs font-semibold text-white transition hover:bg-blue-700"
+        @click="onViewRegion"
+      >
+        Смотреть
+      </button>
     </div>
   </div>
 </template>
 
 <style scoped>
-/* базовая стилизация регионов */
 :deep(svg) {
-  user-select: none;
-  pointer-events: none;
+  display: block;
   width: 100%;
-  height: 320px;
-}
-:deep(svg *) {
+  height: auto;
   pointer-events: auto;
+  user-select: none;
 }
 
 :deep(.region) {
+  pointer-events: all;
   fill: #e5e7eb;
   stroke: rgba(15, 23, 42, 0.25);
   stroke-width: 1;
@@ -153,14 +192,10 @@ onMounted(async () => {
 }
 
 :deep(.region:hover) {
-  fill: #93c5fd; /* голубой */
+  fill: #93c5fd;
 }
 
 :deep(.region.is-active) {
-  fill: #2563eb; /* синий */
-}
-
-:deep(.region) {
-  pointer-events: all;
+  fill: #2563eb;
 }
 </style>

@@ -1,8 +1,16 @@
 export const regions = [
-  { id: "almaty", name: "Алматинская область", tenders: 132 },
-  { id: "astana", name: "Астана", tenders: 87 },
-  { id: "shymkent", name: "Шымкент", tenders: 54 },
-  { id: "karaganda", name: "Карагандинская область", tenders: 101 },
-  { id: "aktobe", name: "Актюбинская область", tenders: 63 },
-  { id: "atyrau", name: "Атырауская область", tenders: 41 },
-];
+  { id: 'almaty', svgId: 'KZ-ALM', name: 'Алматинская область', tenders: 132 },
+  { id: 'astana', svgId: 'KZ-AKM', name: 'Акмолинская область', tenders: 87 },
+  { id: 'shymkent', svgId: 'KZ-YUZ', name: 'Шымкент', tenders: 54 },
+  { id: 'karaganda', svgId: 'KZ-KAR', name: 'Карагандинская область', tenders: 101 },
+  { id: 'aktobe', svgId: 'KZ-AKT', name: 'Актюбинская область', tenders: 63 },
+  { id: 'atyrau', svgId: 'KZ-ATY', name: 'Атырауская область', tenders: 41 },
+  { id: 'kostanay', svgId: 'KZ-KUS', name: 'Костанайская область', tenders: 11 },
+  { id: 'kyzylorda', svgId: 'KZ-KZY', name: 'Кызылординская область', tenders: 20 },
+  { id: 'mangystau', svgId: 'KZ-MAN', name: 'Мангистауская область', tenders: 88 },
+  { id: 'pavlodar', svgId: 'KZ-PAV', name: 'Павлодарская область', tenders: 7182 },
+  { id: 'north_kazakhstan', svgId: 'KZ-SEV', name: 'Северо-Казахстанская область', tenders: 60 },
+  { id: 'east_kazakhstan', svgId: 'KZ-VOS', name: 'Восточно-Казахстанская область', tenders: 20 },
+  { id: 'west_kazakhstan', svgId: 'KZ-ZAP', name: 'Западно-Казахстанская область', tenders: 99 },
+  { id: 'zhambyl', svgId: 'KZ-ZHA', name: 'Жамбылская область', tenders: 13 },
+]

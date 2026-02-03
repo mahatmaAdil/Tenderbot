@@ -3,103 +3,74 @@ const year = new Date().getFullYear()
 </script>
 
 <template>
-  <footer class="border-t border-slate-200 bg-white">
-    <div class="container-app py-10 sm:py-12">
-      <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-        <!-- Бренд/описание -->
-        <div class="space-y-3">
-          <div class="text-base font-extrabold text-slate-900">Tenderbot.kz</div>
-          <p class="text-sm text-slate-600">
-            Тендеры и госзакупки Казахстана в одном окне. Подбор, сопровождение и аналитика.
-          </p>
-        </div>
+  <footer class="bg-white">
+    <div
+      class="container-app py-10 sm:py-12 mt-8 flex flex-col gap-3 border-t border-slate-200 pt-6 sm:flex-row sm:items-center sm:justify-between"
+    >
+      <img src="../assets/icons/Tenderbot.svg" />
+      <div class="text-xs text-slate-500">© {{ year }} Tenderbot.kz. Все права защищены.</div>
 
-        <!-- Контакты -->
-        <div class="space-y-3">
-          <div class="text-sm font-bold text-slate-900">Контакты</div>
-          <ul class="space-y-2 text-sm text-slate-600">
-            <li>
-              <span class="text-slate-500">Тел:</span>
-              <a class="font-semibold text-slate-900 hover:underline" href="tel:+77000000000">
-                +7 (700) 000-00-00
-              </a>
-            </li>
-            <li>
-              <span class="text-slate-500">Email:</span>
-              <a
-                class="font-semibold text-slate-900 hover:underline"
-                href="mailto:info@tenderbot.kz"
-              >
-                info@tenderbot.kz
-              </a>
-            </li>
-            <li class="text-slate-500">Казахстан</li>
-          </ul>
-        </div>
-
-        <!-- Навигация -->
-        <div class="space-y-3">
-          <div class="text-sm font-bold text-slate-900">Разделы</div>
-          <ul class="space-y-2 text-sm">
-            <li><a class="text-slate-600 hover:text-slate-900" href="#platforms">Площадки</a></li>
-            <li>
-              <a class="text-slate-600 hover:text-slate-900" href="#features">Преимущества</a>
-            </li>
-            <li><a class="text-slate-600 hover:text-slate-900" href="#how">Как работает</a></li>
-            <li><a class="text-slate-600 hover:text-slate-900" href="#cta">Демо</a></li>
-          </ul>
-        </div>
-
-        <!-- Документы -->
-        <div class="space-y-3">
-          <div class="text-sm font-bold text-slate-900">Документы</div>
-          <ul class="space-y-2 text-sm">
-            <li>
-              <a
-                class="text-slate-600 hover:text-slate-900"
-                href="#"
-                aria-label="Политика конфиденциальности"
-              >
-                Политика конфиденциальности
-              </a>
-            </li>
-            <li>
-              <a
-                class="text-slate-600 hover:text-slate-900"
-                href="#"
-                aria-label="Пользовательское соглашение"
-              >
-                Пользовательское соглашение
-              </a>
-            </li>
-            <li>
-              <a
-                class="text-slate-600 hover:text-slate-900"
-                href="#"
-                aria-label="Согласие на обработку данных"
-              >
-                Согласие на обработку данных
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- нижняя полоса -->
-      <div
-        class="mt-8 flex flex-col gap-3 border-t border-slate-200 pt-6 sm:flex-row sm:items-center sm:justify-between"
-      >
-        <div class="text-xs text-slate-500">© {{ year }} Tenderbot.kz. Все права защищены.</div>
-
-        <div class="flex items-center gap-3 text-xs">
-          <a class="text-slate-500 hover:text-slate-900" href="#" aria-label="Instagram"
-            >Instagram</a
+      <ul class="space-y-2 text-sm text-slate-600">
+        <li class="flex flex-col gap-1">
+          <span class="font-bold text-slate-500">+7 747 094 42 15</span>
+          <a
+            class="inline-flex items-center gap-2 font-semibold text-blue-600 hover:text-blue-700 transition"
+            href="tel:+77470944215"
           >
-          <span class="text-slate-300">•</span>
-          <a class="text-slate-500 hover:text-slate-900" href="#" aria-label="Telegram">Telegram</a>
-          <span class="text-slate-300">•</span>
-          <a class="text-slate-500 hover:text-slate-900" href="#" aria-label="WhatsApp">WhatsApp</a>
-        </div>
+            <img src="../assets/icons/call.svg" alt="" class="h-4 w-4" aria-hidden="true" />
+            Заказать звонок
+          </a>
+        </li>
+      </ul>
+
+      <div class="flex items-center gap-3 text-xs">
+        <a
+          class="text-slate-500 hover:text-slate-900"
+          href="https://instagram.com/tenderbotkz"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Instagram"
+        >
+          <img src="../assets/contacts/instagrem.svg" alt="" class="h-7 w-7" aria-hidden="true" />
+        </a>
+        <a
+          class="text-slate-500 hover:text-slate-900"
+          href="https://www.facebook.com/tenderbotkz"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="facebook"
+        >
+          <img src="../assets/contacts/facebook.svg" alt="" class="h-7 w-7" aria-hidden="true" />
+        </a>
+        <a
+          class="text-slate-500 hover:text-slate-900"
+          href="https://www.youtube.com/c/TENDERBOTKZ"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="youtube"
+        >
+          <img src="../assets/contacts/youtube.svg" alt="" class="h-7 w-7" aria-hidden="true" />
+        </a>
+
+        <a
+          class="text-slate-500 hover:text-slate-900"
+          href="https://t.me/tenderbot_kz"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Telegram"
+        >
+          <img src="../assets/contacts/telegram.svg" alt="" class="h-7 w-7" aria-hidden="true" />
+        </a>
+
+        <a
+          class="inline-flex items-center gap-2 text-slate-700 hover:text-slate-900 transition"
+          href="https://api.whatsapp.com/send/?phone=77470942065&text&type=phone_number&app_absent=0"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="WhatsApp"
+        >
+          <img src="../assets/contacts/whatsApp.svg" alt="" class="h-7 w-7" aria-hidden="true" />
+        </a>
       </div>
     </div>
   </footer>
