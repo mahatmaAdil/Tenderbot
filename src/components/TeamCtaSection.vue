@@ -3,7 +3,7 @@ const emit = defineEmits(['open-lead'])
 </script>
 
 <template>
-  <section class="bg-white">
+  <section class="">
     <div class="container-app">
       <div
         class="flex flex-col items-center justify-between gap-4 rounded-2xl bg-blue-600 px-6 py-5 text-white sm:flex-row"

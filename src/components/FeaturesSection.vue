@@ -29,9 +29,8 @@ const features = [
 </script>
 
 <template>
-  <section class="bg-white">
+  <section class="">
     <div class="container-app py-14 sm:py-18">
-      <!-- Заголовок -->
       <div class="mx-auto max-w-[720px] text-center">
         <h2 class="text-2xl font-extrabold text-slate-900 sm:text-3xl">
           Всё, что нужно для работы с тендерами
@@ -41,10 +40,8 @@ const features = [
         </p>
       </div>
 
-      <!-- Карточки -->
       <div class="mt-10 grid gap-4 sm:mt-12 sm:grid-cols-2">
         <div v-for="f in features" :key="f.title" class="card p-6">
-          <!-- иконка -->
           <div class="mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-blue-50">
             <img :src="f.icon" alt="" class="h-full w-full" />
           </div>

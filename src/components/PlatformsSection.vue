@@ -8,9 +8,8 @@ import logo3 from '../assets/platforms/logo3.svg'
 </script>
 
 <template>
-  <section class="bg-white">
+  <section class="">
     <div class="container-app py-10 sm:py-12">
-      <!-- Плашка с текстом и логотипами -->
       <div class="rounded-2xl bg-slate-50 px-6 py-5">
         <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <p class="max-w-[420px] text-sm text-slate-600">
@@ -28,7 +27,6 @@ import logo3 from '../assets/platforms/logo3.svg'
         </div>
       </div>
 
-      <!-- Карта -->
       <div class="mt-10">
         <KzMap />
       </div>

@@ -19,8 +19,7 @@ const steps = [
 </script>
 
 <template>
-  <!-- В Фигме этот блок на светло-сером фоне -->
-  <section class="bg-slate-50">
+  <section class="">
     <div class="container-app py-14 sm:py-16">
       <h2 class="text-center text-2xl font-extrabold text-slate-900 sm:text-3xl">
         Как работает сервис?
@@ -33,7 +32,6 @@ const steps = [
           class="rounded-2xl bg-white px-6 py-6 shadow-[0_10px_30px_rgba(15,23,42,0.06)] ring-1 ring-black/5"
         >
           <div class="flex items-start gap-4">
-            <!-- круглый бейдж как в макете -->
             <div
               class="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-blue-100 text-sm font-extrabold text-blue-700"
             >

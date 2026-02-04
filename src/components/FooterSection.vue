@@ -3,9 +3,9 @@ const year = new Date().getFullYear()
 </script>
 
 <template>
-  <footer class="bg-white">
+  <footer class="">
     <div
-      class="container-app py-10 sm:py-12 mt-8 flex flex-col gap-3 border-t border-slate-200 pt-6 sm:flex-row sm:items-center sm:justify-between"
+      class="container-app mt-8 flex flex-col items-center gap-4 border-t border-slate-200 py-10 pt-6 text-center sm:flex-row sm:items-center sm:justify-between sm:text-left"
     >
       <img src="../assets/icons/Tenderbot.svg" />
       <div class="text-xs text-slate-500">© {{ year }} Tenderbot.kz. Все права защищены.</div>

@@ -12,9 +12,6 @@ const emit = defineEmits(['update:modelValue', 'select'])
 const host = ref(null)
 const activeId = computed(() => props.modelValue || '')
 
-/* =====================
-   TOOLTIP STATE
-===================== */
 const tooltip = ref({
   visible: false,
   x: 0,
@@ -22,26 +19,17 @@ const tooltip = ref({
   region: null,
 })
 
-/* =====================
-   DATA
-===================== */
 const regionMap = computed(() => {
   const m = new Map()
-  regions.forEach((r) => m.set(r.svgId, r))
+  regions.forEach((r) => m.set(r.id, r))
   return m
 })
 
-/* =====================
-   ACTIVE REGION
-===================== */
 function setActive(id, name, tenders) {
   emit('update:modelValue', id)
   emit('select', { id, name, tenders })
 }
 
-/* =====================
-   SVG CLASSES
-===================== */
 function applyActiveClass() {
   const root = host.value
   if (!root) return
@@ -53,25 +41,23 @@ function applyActiveClass() {
 
 watch(activeId, applyActiveClass, { immediate: true })
 
-/* =====================
-   TOOLTIP LOGIC (CLICK)
-===================== */
 function openTooltip(e, region) {
   e.stopPropagation()
 
+  const container = host.value?.closest('.map-wrap') || host.value
+  const rect = container.getBoundingClientRect()
+
   tooltip.value.visible = true
-  tooltip.value.x = e.clientX
-  tooltip.value.y = e.clientY
   tooltip.value.region = region
+
+  tooltip.value.x = e.clientX - rect.left + 12
+  tooltip.value.y = e.clientY - rect.top + 12
 }
 
 function closeTooltip() {
   tooltip.value.visible = false
 }
 
-/* =====================
-   MOUNT
-===================== */
 onMounted(async () => {
   await nextTick()
 
@@ -89,7 +75,6 @@ onMounted(async () => {
     }
   }
 
-  // ✅ ВОЗВРАЩАЕМ КЛАССЫ И КЛИКИ
   const paths = root.querySelectorAll('path[id]')
 
   paths.forEach((p) => {
@@ -111,10 +96,8 @@ onMounted(async () => {
     })
   })
 
-  // ✅ клик вне карты закрывает tooltip
   document.addEventListener('click', closeTooltip)
 
-  // ✅ подсветка выбранного региона
   applyActiveClass()
 })
 
@@ -124,10 +107,8 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="relative">
-    <!-- CARD -->
+  <div class="mt-4 relative">
     <div class="flex flex-col">
-      <!-- HEADER -->
       <div class="flex items-center justify-between">
         <div>
           <div class="text-sm font-semibold text-slate-900">Карта тендеров в Казахстане</div>
@@ -144,14 +125,13 @@ onUnmounted(() => {
           {{ regionMap.get(activeId)?.name || activeId }}
         </div>
       </div>
-      <div ref="host" class="mt-4 w-full" v-html="mapSvgRaw"></div>
+      <div ref="host" class="w-full" v-html="mapSvgRaw"></div>
     </div>
 
-    <!-- TOOLTIP -->
     <div
       v-if="tooltip.visible"
-      class="fixed z-50 min-w-[180px] rounded-xl bg-white px-3 py-3 text-xs shadow-xl ring-1 ring-black/10"
-      :style="{ left: tooltip.x + 12 + 'px', top: tooltip.y + 12 + 'px' }"
+      class="absolute z-50 min-w-[180px] rounded-xl bg-white px-3 py-3 text-xs shadow-xl ring-1 ring-black/10"
+      :style="{ left: tooltip.x + 'px', top: tooltip.y + 'px' }"
       @click.stop
     >
       <div class="font-bold text-slate-900">

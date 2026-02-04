@@ -21,7 +21,7 @@ const leadOpen = ref(false)
   <FeaturesSection />
   <TeamCtaSection @open-lead="leadOpen = true" />
   <HowItWorksSection @open-lead="leadOpen = true" />
-  <FinalCtaSection />
+  <FinalCtaSection @open-lead="leadOpen = true" />
   <AboutSection @open-lead="leadOpen = true" />
   <FooterSection />
 

@@ -1,7 +1,5 @@
 <script setup>
 const emit = defineEmits(['open-lead'])
-
-// Надежно для Vite: получаем реальный URL ассета после сборки
 import bgShapeUrl from '../assets/bg-shape.svg'
 </script>
 
@@ -19,7 +17,7 @@ import bgShapeUrl from '../assets/bg-shape.svg'
 
     <div
       aria-hidden="true"
-      class="pointer-events-none absolute inset-0 opacity-[0.35] mix-blend-overlay"
+      class="pointer-events-none absolute inset-0 opacity-[0.75] mix-blend-overlay"
       :style="{
         backgroundImage: `url(${bgShapeUrl})`,
         backgroundRepeat: 'no-repeat',
@@ -29,7 +27,7 @@ import bgShapeUrl from '../assets/bg-shape.svg'
     ></div>
     <div
       aria-hidden="true"
-      class="pointer-events-none absolute inset-0 opacity-[0.35] mix-blend-overlay"
+      class="pointer-events-none absolute inset-0 opacity-[0.75] mix-blend-overlay"
       :style="{
         backgroundImage: `url(${bgShapeUrl})`,
         backgroundRepeat: 'no-repeat',
@@ -39,26 +37,11 @@ import bgShapeUrl from '../assets/bg-shape.svg'
       }"
     ></div>
 
-    <!-- OPTIONAL DOTS (можешь убрать полностью) -->
-    <div
-      aria-hidden="true"
-      class="pointer-events-none absolute inset-0 opacity-[0.10]"
-      style="
-        background-image:
-          radial-gradient(circle at 18% 22%, rgba(255, 255, 255, 0.55) 0 2px, transparent 3px),
-          radial-gradient(circle at 82% 28%, rgba(255, 255, 255, 0.45) 0 2px, transparent 3px),
-          radial-gradient(circle at 62% 78%, rgba(255, 255, 255, 0.45) 0 2px, transparent 3px);
-        background-size: 180px 180px;
-      "
-    ></div>
-
-    <!-- GLOW -->
     <div
       aria-hidden="true"
       class="pointer-events-none absolute -top-36 left-1/2 h-[520px] w-[820px] -translate-x-1/2 rounded-full bg-white/10 blur-3xl"
     ></div>
 
-    <!-- CONTENT -->
     <div class="container-app relative py-16 sm:py-20 lg:py-24">
       <div class="mx-auto max-w-[820px] text-center">
         <h1 class="text-3xl font-extrabold leading-tight sm:text-4xl lg:text-5xl">
