@@ -47,47 +47,65 @@ function onSubmit() {
               class="mb-6 mt-0 translate-y-0 sm:-mt-10 sm:-translate-y-3 w-auto max-w-full select-none"
               draggable="false"
             />
-            <div class="text-2xl font-bold text-slate-900 sm:text-5xl">
+            <div
+              class="text-2xl max-w-[444px] font-semibold text-weight-600 text-slate-900 sm:text-4xl"
+            >
               Всё ещё думаете?<br />
               Просто попробуйте
             </div>
-            <p class="mt-4 max-w-[520px] text-[15px] leading-relaxed text-slate-600">
+            <p class="mt-4 max-w-[615px] text-[15px] leading-relaxed text-slate-600">
               Если сомневаетесь или что-то не поняли - смело оставляйте свои контакты. Наш менеджер
               перезвонит и поможет начать работать в сервисе.
             </p>
           </div>
           <div class="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6">
             <form class="grid gap-3" @submit.prevent="onSubmit">
-              <label class="grid gap-1">
-                <span class="text-xs font-semibold text-slate-600">Страна</span>
+              <label class="relative block">
+                <img
+                  src="../assets/icons/icon4.svg"
+                  alt=""
+                  class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 opacity-70"
+                />
+
                 <select
                   v-model="country"
-                  class="h-11 rounded-xl border border-slate-200 px-3 text-sm outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-100"
+                  class="h-11 w-full appearance-none rounded-xl border border-slate-200 pl-10 pr-8 text-sm outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-100"
                 >
                   <option>Казахстан</option>
                   <option>Кыргызстан</option>
                   <option>Узбекистан</option>
                 </select>
               </label>
-              <label class="grid gap-1">
-                <span class="text-xs font-semibold text-slate-600">Имя</span>
+
+              <label class="relative block">
+                <img
+                  src="../assets/icons/icon5.svg"
+                  alt=""
+                  class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 opacity-70"
+                />
                 <input
                   v-model="name"
-                  class="h-11 rounded-xl border border-slate-200 px-3 text-sm outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-100"
+                  class="h-11 w-full rounded-xl border border-slate-200 pl-10 pr-3 text-sm outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-100"
                   placeholder="Имя"
                   required
                 />
               </label>
-              <label class="grid gap-1">
-                <span class="text-xs font-semibold text-slate-600">Телефон</span>
+              <label class="relative block">
+                <img
+                  src="../assets/icons/icon6.svg"
+                  alt=""
+                  class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 opacity-70"
+                />
+
                 <input
                   v-model="phone"
-                  class="h-11 rounded-xl border border-slate-200 px-3 text-sm outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-100"
-                  placeholder="Телефон"
                   type="tel"
+                  placeholder="Телефон"
                   required
+                  class="h-11 w-full rounded-xl border border-slate-200 pl-10 pr-3 text-sm outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-100"
                 />
               </label>
+
               <button
                 type="submit"
                 class="mt-2 h-11 rounded-xl bg-blue-600 text-sm font-semibold text-white transition hover:bg-blue-500"

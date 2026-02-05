@@ -10,6 +10,7 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue', 'select'])
 
 const host = ref(null)
+const wrap = ref(null)
 const desktopTip = ref(null)
 const mobileTip = ref(null)
 
@@ -22,40 +23,30 @@ const tooltip = ref({
   region: null,
 })
 
+const isMobile = ref(false)
+function updateIsMobile() {
+  isMobile.value = window.innerWidth < 768
+}
+
 const regionMap = computed(() => {
   const m = new Map()
   regions.forEach((r) => m.set(r.id, r))
   return m
 })
 
-const highlightedId = computed(() => {
-  if (tooltip.value.visible) return tooltip.value.region?.id || ''
-
-  return props.modelValue || ''
-})
+function getMapNameById(id) {
+  return regionMap.value.get(id)?.mapName || id
+}
 
 function setActive(id, name, tenders) {
   emit('update:modelValue', id)
   emit('select', { id, name, tenders })
 }
 
-function applyActiveClass() {
-  const root = host.value
-  if (!root) return
-
-  root.querySelectorAll('path[id]').forEach((p) => {
-    p.classList.toggle('is-active', p.id === highlightedId.value)
-  })
-}
-
-watch(highlightedId, applyActiveClass, { immediate: true })
-
 function closeTooltip() {
   tooltip.value.visible = false
   tooltip.value.region = null
-  applyActiveClass()
 }
-const wrap = ref(null)
 
 function openTooltipDesktop(e, region) {
   const rect = wrap.value?.getBoundingClientRect()
@@ -67,24 +58,29 @@ function openTooltipDesktop(e, region) {
   tooltip.value.y = e.clientY - rect.top + 12
 }
 
-const isMobile = ref(false)
-
-function updateIsMobile() {
-  isMobile.value = window.innerWidth < 768
-}
-
 function onDocPointerDown(e) {
   if (!tooltip.value.visible) return
 
   const t = e.target
-
-  if (t.closest('path[id]')) return
-
+  if (t.closest?.('path[id]')) return
   if (desktopTip.value?.contains?.(t)) return
   if (mobileTip.value?.contains?.(t)) return
 
   closeTooltip()
 }
+
+function applyActiveClass() {
+  const root = host.value
+  if (!root) return
+
+  root.querySelectorAll('path[id]').forEach((p) => {
+    p.classList.toggle('is-active', p.id === activeId.value)
+  })
+}
+
+watch(activeId, applyActiveClass, { immediate: true })
+
+let svgEl = null
 
 onMounted(async () => {
   updateIsMobile()
@@ -93,33 +89,34 @@ onMounted(async () => {
 
   await nextTick()
 
-  const svg = host.value.querySelector('svg')
-  if (svg) {
-    svg.setAttribute('viewBox', '0 50 1000 500')
+  const root = host.value
+  if (!root) return
 
-    if (!svg.getAttribute('viewBox')) {
-      const w = parseFloat(svg.getAttribute('width') || '0')
-      const h = parseFloat(svg.getAttribute('height') || '0')
-      if (w > 0 && h > 0) svg.setAttribute('viewBox', `0 0 ${w} ${h}`)
-    }
+  svgEl = root.querySelector('svg')
+  if (!svgEl) return
+
+  // viewBox (если нужно подогнать)
+  if (!svgEl.getAttribute('viewBox')) {
+    svgEl.setAttribute('viewBox', '0 50 1000 500')
   }
 
-  const paths = host.value.querySelectorAll('path[id]')
+  const paths = root.querySelectorAll('path[id]')
 
+  // клики по регионам
   paths.forEach((p) => {
     p.classList.add('region')
 
-    const id = p.id
-    const r = regionMap.value.get(id)
-
-    const region = {
-      id,
-      name: r?.name || id,
-      tenders: Number(r?.tenders ?? 0),
-    }
-
     p.addEventListener('click', (e) => {
       e.stopPropagation()
+
+      const id = p.id
+      const r = regionMap.value.get(id)
+
+      const region = {
+        id,
+        name: r?.name || id,
+        tenders: Number(r?.tenders ?? 0),
+      }
 
       setActive(region.id, region.name, region.tenders)
 
@@ -138,7 +135,12 @@ onMounted(async () => {
     })
   })
 
+  // подписи mapName на карте
   paths.forEach((path) => {
+    const id = path.id
+    const label = getMapNameById(id)
+    if (!label || label === id) return // если нет mapName — не рисуем (можешь убрать это условие)
+
     const bbox = path.getBBox()
     const x = bbox.x + bbox.width / 2
     const y = bbox.y + bbox.height / 2
@@ -148,17 +150,14 @@ onMounted(async () => {
     text.setAttribute('y', y)
     text.setAttribute('text-anchor', 'middle')
     text.setAttribute('dominant-baseline', 'middle')
-    text.setAttribute('font-size', '10')
     text.setAttribute('pointer-events', 'none')
+    text.setAttribute('fill', '#0f172a')
+    text.setAttribute('font-size', '13')
+    text.setAttribute('font-weight', '700')
+    text.setAttribute('font-family', 'Inter, Helvetica, Arial, sans-serif')
 
-    text.textContent = path.getAttribute('name')
-
-    text.setAttribute('fill', '#000')
-    text.setAttribute('font-size', '12')
-    text.setAttribute('font-weight', 'bold')
-    text.setAttribute('font-family', 'Helvetica')
-
-    svg.appendChild(text)
+    text.textContent = label
+    svgEl.appendChild(text)
   })
 
   applyActiveClass()
@@ -175,11 +174,11 @@ onUnmounted(() => {
     <div class="flex flex-col">
       <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between sm:gap-10">
         <div class="flex flex-col gap-1 sm:max-w-[350px]">
-          <h2 class="max-w-[240px] text-xl font-bold leading-tight text-slate-900 sm:max-w-none">
+          <h2 class="max-w-[220px] text-2xl font-semibold leading-snug text-slate-900">
             Карта тендеров в Казахстане
           </h2>
 
-          <p class="w-full text-sm leading-snug text-slate-500 sm:max-w-[340px]">
+          <p class="w-full text-sm text-slate-400 sm:max-w-[230px]">
             Наведите курсор мыши на область, чтобы узнать о проводимых тендерах
           </p>
 
@@ -192,8 +191,10 @@ onUnmounted(() => {
           </div>
         </div>
 
+        <!-- ВОТ ТУТ ДОЛЖЕН БЫТЬ ТОЛЬКО ОДИН host -->
         <div ref="host" class="w-full sm:w-[120%] sm:-ml-[30%] sm:flex-1" v-html="mapSvgRaw"></div>
       </div>
+
       <div
         v-if="tooltip.visible && !isMobile"
         ref="desktopTip"

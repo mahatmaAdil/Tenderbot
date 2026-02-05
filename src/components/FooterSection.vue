@@ -25,13 +25,22 @@ const year = new Date().getFullYear()
 
       <div class="flex items-center gap-3 text-xs">
         <a
-          class="text-slate-500 hover:text-slate-900"
-          href="https://instagram.com/tenderbotkz"
+          class="inline-flex items-center gap-2 text-slate-700 hover:text-slate-900 transition"
+          href="https://api.whatsapp.com/send/?phone=77470942065&text&type=phone_number&app_absent=0"
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="Instagram"
+          aria-label="WhatsApp"
         >
-          <img src="../assets/contacts/instagrem.svg" alt="" class="h-7 w-7" aria-hidden="true" />
+          <img src="../assets/contacts/whatsApp.svg" alt="" class="h-7 w-7" aria-hidden="true" />
+        </a>
+        <a
+          class="text-slate-500 hover:text-slate-900"
+          href="https://t.me/tenderbot_kz"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Telegram"
+        >
+          <img src="../assets/contacts/telegram.svg" alt="" class="h-7 w-7" aria-hidden="true" />
         </a>
         <a
           class="text-slate-500 hover:text-slate-900"
@@ -44,32 +53,22 @@ const year = new Date().getFullYear()
         </a>
         <a
           class="text-slate-500 hover:text-slate-900"
+          href="https://instagram.com/tenderbotkz"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Instagram"
+        >
+          <img src="../assets/contacts/instagrem.svg" alt="" class="h-7 w-7" aria-hidden="true" />
+        </a>
+
+        <a
+          class="text-slate-500 hover:text-slate-900"
           href="https://www.youtube.com/c/TENDERBOTKZ"
           target="_blank"
           rel="noopener noreferrer"
           aria-label="youtube"
         >
           <img src="../assets/contacts/youtube.svg" alt="" class="h-7 w-7" aria-hidden="true" />
-        </a>
-
-        <a
-          class="text-slate-500 hover:text-slate-900"
-          href="https://t.me/tenderbot_kz"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Telegram"
-        >
-          <img src="../assets/contacts/telegram.svg" alt="" class="h-7 w-7" aria-hidden="true" />
-        </a>
-
-        <a
-          class="inline-flex items-center gap-2 text-slate-700 hover:text-slate-900 transition"
-          href="https://api.whatsapp.com/send/?phone=77470942065&text&type=phone_number&app_absent=0"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="WhatsApp"
-        >
-          <img src="../assets/contacts/whatsApp.svg" alt="" class="h-7 w-7" aria-hidden="true" />
         </a>
       </div>
     </div>
