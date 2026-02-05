@@ -95,51 +95,97 @@ onMounted(async () => {
   svgEl = root.querySelector('svg')
   if (!svgEl) return
 
-  // viewBox (если нужно подогнать)
   if (!svgEl.getAttribute('viewBox')) {
     svgEl.setAttribute('viewBox', '0 50 1000 500')
   }
 
   const paths = root.querySelectorAll('path[id]')
 
-  // клики по регионам
+  function handleRegionClick(id, e) {
+    const r = regionMap.value.get(id)
+
+    const region = {
+      id,
+      name: r?.name || id,
+      tenders: Number(r?.tenders ?? 0),
+    }
+
+    setActive(region.id, region.name, region.tenders)
+
+    if (tooltip.value.visible && tooltip.value.region?.id === region.id) {
+      closeTooltip()
+      return
+    }
+
+    if (isMobile.value) {
+      tooltip.value.visible = true
+      tooltip.value.region = region
+      return
+    }
+
+    openTooltipDesktop(e, region)
+  }
+
   paths.forEach((p) => {
     p.classList.add('region')
-
     p.addEventListener('click', (e) => {
       e.stopPropagation()
-
-      const id = p.id
-      const r = regionMap.value.get(id)
-
-      const region = {
-        id,
-        name: r?.name || id,
-        tenders: Number(r?.tenders ?? 0),
-      }
-
-      setActive(region.id, region.name, region.tenders)
-
-      if (tooltip.value.visible && tooltip.value.region?.id === region.id) {
-        closeTooltip()
-        return
-      }
-
-      if (isMobile.value) {
-        tooltip.value.visible = true
-        tooltip.value.region = region
-        return
-      }
-
-      openTooltipDesktop(e, region)
+      handleRegionClick(p.id, e)
     })
   })
 
-  // подписи mapName на карте
+  const cityNames = ['Астана', 'Алматы', 'Шымкент']
+
+  const hitLayer = document.createElementNS('http://www.w3.org/2000/svg', 'g')
+  hitLayer.setAttribute('data-hit-layer', 'true')
+  svgEl.appendChild(hitLayer)
+
+  const norm = (s) =>
+    String(s ?? '')
+      .trim()
+      .toLowerCase()
+
+  cityNames.forEach((cityName) => {
+    const region = regions.find((r) => norm(r.mapName) === norm(cityName))
+    if (!region?.id) return
+
+    const id = region.id
+    const cityPath = Array.from(paths).find((p) => p.id === id)
+    if (!cityPath) return
+
+    const cfg = regionMap.value.get(id) || {}
+    const bb = cityPath.getBBox()
+
+    const cx = bb.x + bb.width / 2 + Number(cfg.hitDx || 0)
+    const cy = bb.y + bb.height / 2 + Number(cfg.hitDy || 0)
+    const rr = Number(cfg.hitR || (isMobile.value ? 26 : 20))
+
+    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle')
+    circle.setAttribute('cx', String(cx))
+    circle.setAttribute('cy', String(cy))
+    circle.setAttribute('r', String(rr))
+
+    circle.setAttribute('fill', 'transparent')
+
+    circle.setAttribute('fill', 'rgba(59,130,246,0.15)')
+    circle.setAttribute('stroke', 'rgba(59,130,246,0.65)')
+    circle.setAttribute('stroke-width', '2')
+
+    circle.setAttribute('pointer-events', 'all')
+    circle.style.cursor = 'pointer'
+
+    hitLayer.appendChild(circle)
+
+    circle.addEventListener('click', (e) => {
+      e.stopPropagation()
+      handleRegionClick(id, e)
+    })
+  })
+
   paths.forEach((path) => {
     const id = path.id
     const label = getMapNameById(id)
-    if (!label || label === id) return // если нет mapName — не рисуем (можешь убрать это условие)
+    if (!label || label === id) return
 
     const bbox = path.getBBox()
     const x = bbox.x + bbox.width / 2
@@ -191,7 +237,6 @@ onUnmounted(() => {
           </div>
         </div>
 
-        <!-- ВОТ ТУТ ДОЛЖЕН БЫТЬ ТОЛЬКО ОДИН host -->
         <div ref="host" class="w-full w-[120%] sm:-ml-[30%] sm:flex-1" v-html="mapSvgRaw"></div>
       </div>
 

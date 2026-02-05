@@ -16,7 +16,7 @@ export const regions = [
   { id: 'KZ61', name: 'Туркестанская область', mapName: 'Туркестан', tenders: 222 },
   { id: 'KZ62', name: 'Улытауская область', mapName: 'Улытау', tenders: 222 },
   { id: 'KZ63', name: 'ВКО', mapName: 'ВКО', tenders: 222 },
-  { id: 'KZ71', name: 'Астана', mapName: 'Астана', tenders: 222 },
-  { id: 'KZ75', name: 'Алматы', mapName: 'Алматы', tenders: 222 },
-  { id: 'KZ79', name: 'Шымкент', mapName: 'Шымкент', tenders: 222 },
+  { id: 'KZ71', name: 'Астана', mapName: 'Астана', tenders: 222, hitR: 15, hitDx: 0, hitDy: 0 },
+  { id: 'KZ75', name: 'Алматы', mapName: 'Алматы', tenders: 222, hitR: 15, hitDx: 0, hitDy: 0 },
+  { id: 'KZ79', name: 'Шымкент', mapName: 'Шымкент', tenders: 222, hitR: 15, hitDx: 0, hitDy: 0 },
 ]
