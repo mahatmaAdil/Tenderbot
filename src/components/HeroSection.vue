@@ -43,15 +43,13 @@ import bgShapeUrl from '../assets/bg-shape.svg'
     ></div>
 
     <div class="container-app relative py-16 sm:py-20 lg:py-24">
-      <div class="mx-auto max-w-[820px] text-center">
-        <h1 class="text-3xl font-extrabold leading-tight sm:text-4xl lg:text-5xl">
+      <div class="mx-auto max-w-[1080px] text-center">
+        <h1 class="text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl">
           Tenderbot.kz - тендеры и госзакупки Казахстана в одном окне
         </h1>
 
         <p class="mx-auto mt-4 max-w-[640px] text-sm text-white/85 sm:text-base">
           Находите подходящие тендеры без ручного поиска.
-          <br class="hidden sm:block" />
-          Сервис автоматически подберет по вашим параметрам на 142 площадках.
         </p>
 
         <div class="mx-auto mt-8 flex justify-center">

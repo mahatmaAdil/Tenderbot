@@ -26,24 +26,25 @@ const steps = [
       </h2>
 
       <div class="mt-10 grid gap-6 sm:grid-cols-3">
-        <div
-          v-for="s in steps"
-          :key="s.n"
-          class="rounded-2xl bg-white px-6 py-6 shadow-[0_10px_30px_rgba(15,23,42,0.06)] ring-1 ring-black/5"
-        >
+        <div v-for="s in steps" :key="s.n" class="card-step">
+          <!-- мягкий переход вверх -->
+          <div class="pointer-events-none absolute inset-x-0 bottom-[7px] h-[7px]"></div>
+
+          <!-- основная синяя полоса -->
+
           <div class="flex items-start gap-4">
             <div
-              class="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-blue-100 text-sm font-extrabold text-blue-700"
+              class="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-blue-100 text-base font-extrabold text-blue-600"
             >
               {{ s.n }}
             </div>
 
             <div>
-              <div class="text-sm font-extrabold text-slate-900">
+              <div class="text-sm font-bold text-slate-900">
                 {{ s.title }}
               </div>
 
-              <p class="mt-2 text-xs leading-relaxed text-slate-500">
+              <p class="mt-1.5 text-xs leading-relaxed text-slate-500">
                 {{ s.text }}
               </p>
             </div>
@@ -53,3 +54,30 @@ const steps = [
     </div>
   </section>
 </template>
+
+<style scoped>
+.card-step {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  background: white;
+  padding: 24px;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
+}
+
+/* ГРАДИЕНТНЫЙ БОРДЕР СНИЗУ */
+.card-step::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  height: 7px;
+
+  background: linear-gradient(90deg, #93c5fd 0%, #3b82f6 50%, #93c5fd 100%);
+
+  /* мягкий уход вверх */
+  mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 60%, rgba(0, 0, 0, 0));
+}
+</style>

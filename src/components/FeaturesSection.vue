@@ -42,7 +42,7 @@ const features = [
 
       <div class="mt-10 grid gap-4 sm:mt-12 sm:grid-cols-2">
         <div v-for="f in features" :key="f.title" class="card p-6">
-          <div class="mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-blue-50">
+          <div class="mb-4 flex h-14 w-14 items-center justify-center bg-blue-50">
             <img :src="f.icon" alt="" class="h-full w-full" />
           </div>
 
