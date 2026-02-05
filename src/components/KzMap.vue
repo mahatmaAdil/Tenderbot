@@ -192,7 +192,7 @@ onUnmounted(() => {
         </div>
 
         <!-- ВОТ ТУТ ДОЛЖЕН БЫТЬ ТОЛЬКО ОДИН host -->
-        <div ref="host" class="w-full sm:w-[120%] sm:-ml-[30%] sm:flex-1" v-html="mapSvgRaw"></div>
+        <div ref="host" class="w-full w-[120%] sm:-ml-[30%] sm:flex-1" v-html="mapSvgRaw"></div>
       </div>
 
       <div
