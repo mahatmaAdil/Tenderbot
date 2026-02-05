@@ -188,8 +188,9 @@ onMounted(async () => {
     if (!label || label === id) return
 
     const bbox = path.getBBox()
-    const x = bbox.x + bbox.width / 2
-    const y = bbox.y + bbox.height / 2
+    const cfg = regionMap.value.get(id) || {}
+    const x = bbox.x + bbox.width / 2 + Number(cfg.labelDx || 0)
+    const y = bbox.y + bbox.height / 2 + Number(cfg.labelDy || 0)
 
     const text = document.createElementNS('http://www.w3.org/2000/svg', 'text')
     text.setAttribute('x', x)
