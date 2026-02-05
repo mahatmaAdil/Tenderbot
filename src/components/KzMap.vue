@@ -91,18 +91,17 @@ function onDocPointerDown(e) {
   closeTooltip()
 }
 
+
 onMounted(async () => {
+
   updateIsMobile()
   window.addEventListener('resize', updateIsMobile)
   document.addEventListener('pointerdown', onDocPointerDown)
 
   await nextTick()
 
-  const root = host.value
-  if (!root) return
-
   // подтюним svg, чтобы был адаптивный
-  const svg = root.querySelector('svg')
+  const svg = host.value.querySelector('svg')
   if (svg) {
     svg.setAttribute('preserveAspectRatio', 'xMidYMid meet')
 
@@ -113,7 +112,7 @@ onMounted(async () => {
     }
   }
 
-  const paths = root.querySelectorAll('path[id]')
+  const paths = host.value.querySelectorAll('path[id]')
 
   paths.forEach((p) => {
     p.classList.add('region')
@@ -149,7 +148,32 @@ onMounted(async () => {
     })
   })
 
+  paths.forEach(path => {
+    const bbox = path.getBBox();
+    const x = bbox.x + bbox.width / 2;
+    const y = bbox.y + bbox.height / 2;
+
+    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    text.setAttribute('x', x);
+    text.setAttribute('y', y);
+    text.setAttribute('text-anchor', 'middle');
+    text.setAttribute('dominant-baseline', 'middle');
+    text.setAttribute('font-size', '10');
+    text.setAttribute('pointer-events', 'none');
+
+    text.textContent = path.getAttribute('name');
+
+    text.setAttribute('fill', '#000');
+    text.setAttribute('font-size', '12');
+    text.setAttribute('font-weight', 'bold');
+    text.setAttribute('font-family', 'Helvetica');
+
+    svg.appendChild(text);
+  });
+
   applyActiveClass()
+
+
 })
 
 onUnmounted(() => {
@@ -258,6 +282,6 @@ onUnmounted(() => {
 }
 
 :deep(.region.is-active) {
-  fill: #2563eb;
+  fill: #93c5fd;
 }
 </style>

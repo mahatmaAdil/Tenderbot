@@ -12,7 +12,6 @@ function openLeadModal() {
     <div
       aria-hidden="true"
       class="cta-bg absolute inset-0 left-1/2 w-screen -translate-x-1/2"
-      :style="{ backgroundImage: `url(${bg})` }"
     ></div>
     <div class="relative container-app cta-inner">
       <div class="cta-card mx-auto text-center text-white">
@@ -47,6 +46,13 @@ function openLeadModal() {
   background-position: center;
   background-size: cover;
   pointer-events: none;
+}
+
+.final-cta {
+  background-image: url('../assets/cta/card-cta.svg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 
 .cta-inner {

@@ -75,7 +75,7 @@ const steps = [
 
   height: 7px;
 
-  background: linear-gradient(90deg, #93c5fd 0%, #3b82f6 50%, #93c5fd 100%);
+  background: linear-gradient(90deg, #fff 0%, #3b82f6 50%, #fff 100%);
 
   /* мягкий уход вверх */
   mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 60%, rgba(0, 0, 0, 0));
