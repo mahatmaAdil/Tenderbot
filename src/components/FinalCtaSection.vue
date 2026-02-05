@@ -9,15 +9,16 @@ function openLeadModal() {
 
 <template>
   <section class="final-cta relative overflow-hidden">
-    <div
-      aria-hidden="true"
-      class="cta-bg absolute inset-0 left-1/2 w-screen -translate-x-1/2"
-    ></div>
+    <img
+      src="@/assets/cta/card-cta.svg"
+      alt=""
+      class="pointer-events-none absolute left-1/2 top-0 w-[2500px] max-w-none -translate-x-1/2"
+    />
     <div class="relative container-app cta-inner">
       <div class="cta-card mx-auto text-center text-white">
         <h2 class="cta-title font-extrabold">
-          Прямо сейчас более <span class="text-white">1000</span>
-          <span class="block sm:inline">актуальных тендеров</span>
+          Прямо сейчас более <span class="text-white">1000 </span>
+          <span class="block sm:inline">актуальных тендеров </span>
           <span class="block sm:inline">по вашей нише</span>
         </h2>
 
@@ -41,20 +42,6 @@ function openLeadModal() {
 </template>
 
 <style scoped>
-.cta-bg {
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  pointer-events: none;
-}
-
-.final-cta {
-  background-image: url('../assets/cta/card-cta.svg');
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-}
-
 .cta-inner {
   display: flex;
   align-items: center;
@@ -94,11 +81,6 @@ function openLeadModal() {
 @media (min-width: 640px) {
   .final-cta {
     min-height: auto;
-  }
-
-  .cta-bg {
-    background-size: 100% auto;
-    background-position: left center;
   }
 
   .cta-inner {

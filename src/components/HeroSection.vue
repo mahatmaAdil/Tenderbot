@@ -55,7 +55,7 @@ import bgShapeUrl from '../assets/bg-shape.svg'
         <div class="mx-auto mt-8 flex justify-center">
           <button
             type="button"
-            class="inline-flex items-center justify-center rounded-full bg-white px-8 py-3 text-sm font-semibold text-slate-900 shadow-lg shadow-black/10 transition hover:-translate-y-[1px] hover:bg-white/95 active:translate-y-0"
+            class="mx-auto inline-flex min-w-[177.15px] items-center justify-center rounded-full bg-white px-6 py-2 text-sm font-semibold text-slate-900 shadow-lg shadow-black/10 transition hover:-translate-y-[1px] hover:bg-white/95 active:translate-y-0"
             @click="emit('open-lead')"
           >
             Узнать больше

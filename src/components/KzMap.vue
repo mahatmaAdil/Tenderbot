@@ -9,7 +9,7 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue', 'select'])
 
-const host = ref(null) // контейнер с v-html (svg внутри)
+const host = ref(null)
 const desktopTip = ref(null)
 const mobileTip = ref(null)
 
@@ -29,9 +29,8 @@ const regionMap = computed(() => {
 })
 
 const highlightedId = computed(() => {
-  // пока тултип открыт — подсвечиваем его регион
   if (tooltip.value.visible) return tooltip.value.region?.id || ''
-  // иначе (если надо) можно подсвечивать выбранное снаружи
+
   return props.modelValue || ''
 })
 
@@ -56,10 +55,11 @@ function closeTooltip() {
   tooltip.value.region = null
   applyActiveClass()
 }
+const wrap = ref(null)
 
 function openTooltipDesktop(e, region) {
-  const container = host.value
-  const rect = container.getBoundingClientRect()
+  const rect = wrap.value?.getBoundingClientRect()
+  if (!rect) return
 
   tooltip.value.visible = true
   tooltip.value.region = region
@@ -67,43 +67,35 @@ function openTooltipDesktop(e, region) {
   tooltip.value.y = e.clientY - rect.top + 12
 }
 
-// ====== adaptive ======
 const isMobile = ref(false)
 
 function updateIsMobile() {
   isMobile.value = window.innerWidth < 768
 }
 
-// закрытие по тапу/клику вне карты и вне тултипа (и на мобиле, и на десктопе)
 function onDocPointerDown(e) {
   if (!tooltip.value.visible) return
 
   const t = e.target
 
-  // клик по региону (path) — НЕ закрываем
   if (t.closest('path[id]')) return
 
-  // клик по тултипу — НЕ закрываем
   if (desktopTip.value?.contains?.(t)) return
   if (mobileTip.value?.contains?.(t)) return
 
-  // всё остальное — закрываем
   closeTooltip()
 }
 
-
 onMounted(async () => {
-
   updateIsMobile()
   window.addEventListener('resize', updateIsMobile)
   document.addEventListener('pointerdown', onDocPointerDown)
 
   await nextTick()
 
-  // подтюним svg, чтобы был адаптивный
   const svg = host.value.querySelector('svg')
   if (svg) {
-    svg.setAttribute('preserveAspectRatio', 'xMidYMid meet')
+    svg.setAttribute('viewBox', '0 50 1000 500')
 
     if (!svg.getAttribute('viewBox')) {
       const w = parseFloat(svg.getAttribute('width') || '0')
@@ -126,13 +118,11 @@ onMounted(async () => {
       tenders: Number(r?.tenders ?? 0),
     }
 
-    // ✅ и на десктопе, и на мобиле: всё по клику
     p.addEventListener('click', (e) => {
       e.stopPropagation()
 
       setActive(region.id, region.name, region.tenders)
 
-      // toggle по тому же региону
       if (tooltip.value.visible && tooltip.value.region?.id === region.id) {
         closeTooltip()
         return
@@ -148,32 +138,30 @@ onMounted(async () => {
     })
   })
 
-  paths.forEach(path => {
-    const bbox = path.getBBox();
-    const x = bbox.x + bbox.width / 2;
-    const y = bbox.y + bbox.height / 2;
+  paths.forEach((path) => {
+    const bbox = path.getBBox()
+    const x = bbox.x + bbox.width / 2
+    const y = bbox.y + bbox.height / 2
 
-    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-    text.setAttribute('x', x);
-    text.setAttribute('y', y);
-    text.setAttribute('text-anchor', 'middle');
-    text.setAttribute('dominant-baseline', 'middle');
-    text.setAttribute('font-size', '10');
-    text.setAttribute('pointer-events', 'none');
+    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text')
+    text.setAttribute('x', x)
+    text.setAttribute('y', y)
+    text.setAttribute('text-anchor', 'middle')
+    text.setAttribute('dominant-baseline', 'middle')
+    text.setAttribute('font-size', '10')
+    text.setAttribute('pointer-events', 'none')
 
-    text.textContent = path.getAttribute('name');
+    text.textContent = path.getAttribute('name')
 
-    text.setAttribute('fill', '#000');
-    text.setAttribute('font-size', '12');
-    text.setAttribute('font-weight', 'bold');
-    text.setAttribute('font-family', 'Helvetica');
+    text.setAttribute('fill', '#000')
+    text.setAttribute('font-size', '12')
+    text.setAttribute('font-weight', 'bold')
+    text.setAttribute('font-family', 'Helvetica')
 
-    svg.appendChild(text);
-  });
+    svg.appendChild(text)
+  })
 
   applyActiveClass()
-
-
 })
 
 onUnmounted(() => {
@@ -183,30 +171,29 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="relative">
+  <div ref="wrap" class="relative">
     <div class="flex flex-col">
-      <div class="flex items-center justify-between">
-        <div class="flex flex-col gap-1">
-          <div class="max-w-[240px] text-xl font-bold leading-tight text-slate-900">
+      <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between sm:gap-10">
+        <div class="flex flex-col gap-1 sm:max-w-[350px]">
+          <h2 class="max-w-[240px] text-xl font-bold leading-tight text-slate-900 sm:max-w-none">
             Карта тендеров в Казахстане
-          </div>
+          </h2>
 
-          <div class="max-w-[240px] text-sm leading-snug text-slate-500">
-            Нажмите на область, чтобы узнать о проводимых тендерах
+          <p class="w-full text-sm leading-snug text-slate-500 sm:max-w-[340px]">
+            Наведите курсор мыши на область, чтобы узнать о проводимых тендерах
+          </p>
+
+          <div
+            v-if="activeId"
+            class="rounded-xl bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700"
+          >
+            Выбрано:
+            {{ regionMap.get(activeId)?.name || activeId }}
           </div>
         </div>
 
-        <div
-          v-if="activeId"
-          class="rounded-xl bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700"
-        >
-          Выбрано:
-          {{ regionMap.get(activeId)?.name || activeId }}
-        </div>
+        <div ref="host" class="w-full sm:w-[120%] sm:-ml-[30%] sm:flex-1" v-html="mapSvgRaw"></div>
       </div>
-
-      <div ref="host" class="w-full" v-html="mapSvgRaw"></div>
-
       <div
         v-if="tooltip.visible && !isMobile"
         ref="desktopTip"

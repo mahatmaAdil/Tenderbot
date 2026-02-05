@@ -29,20 +29,15 @@ const features = [
 </script>
 
 <template>
-  <section class="">
+  <section class="-mt-10">
     <div class="container-app py-14 sm:py-18">
-      <div class="mx-auto max-w-[720px] text-center">
-        <h2 class="text-2xl font-extrabold text-slate-900 sm:text-3xl">
-          Всё, что нужно для работы с тендерами
-        </h2>
-        <p class="mt-3 text-sm text-slate-600 sm:text-base">
-          Tenderbot автоматизирует поиск, анализ и участие в тендерах.
-        </p>
-      </div>
-
       <div class="mt-10 grid gap-4 sm:mt-12 sm:grid-cols-2">
-        <div v-for="f in features" :key="f.title" class="card p-6">
-          <div class="mb-4 flex h-14 w-14 items-center justify-center bg-blue-50">
+        <div
+          v-for="f in features"
+          :key="f.title"
+          class="rounded-2xl border border-[#D3E8F6] bg-white p-6"
+        >
+          <div class="mb-4 flex h-20 w-20 items-center justify-center rounded-xl">
             <img :src="f.icon" alt="" class="h-full w-full" />
           </div>
 
