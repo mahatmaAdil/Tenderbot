@@ -37,8 +37,10 @@ const features = [
           :key="f.title"
           class="rounded-2xl border border-[#D3E8F6] bg-white p-6"
         >
-          <div class="mb-4 flex h-20 w-20 items-center justify-center rounded-xl">
-            <img :src="f.icon" alt="" class="h-full w-full" />
+          <div
+            class="mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-b from-[#00BCFF] to-[#155DFC]"
+          >
+            <img :src="f.icon" alt="" class="h-7 w-7" />
           </div>
 
           <h3 class="text-base font-bold text-slate-900">

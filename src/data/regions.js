@@ -32,7 +32,7 @@ export const regions = [
   },
   { id: 'KZ43', name: 'Кызылординская область', mapName: 'Кызылорда', tenders: 222 },
   { id: 'KZ47', name: 'Мангыстауская область', mapName: 'Мангыстау', tenders: 222 },
-  { id: 'KZ55', name: 'Павлодарская область', mapName: 'Павлодвр', tenders: 222 },
+  { id: 'KZ55', name: 'Павлодарская область', mapName: 'Павлодар', tenders: 222 },
   { id: 'KZ59', name: 'СКО', mapName: 'СКО', tenders: 222 },
   { id: 'KZ61', name: 'Туркестанская область', mapName: 'Туркестан', tenders: 222 },
   { id: 'KZ62', name: 'Улытауская область', mapName: 'Улытау', tenders: 222 },

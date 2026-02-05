@@ -1,5 +1,6 @@
 <script setup>
 const year = new Date().getFullYear()
+const emit = defineEmits(['open-lead'])
 </script>
 
 <template>
@@ -15,7 +16,8 @@ const year = new Date().getFullYear()
           <span class="font-bold text-slate-500">+7 747 094 42 15</span>
           <a
             class="inline-flex items-center gap-2 font-semibold text-blue-600 hover:text-blue-700 transition"
-            href="tel:+77470944215"
+            href="#"
+            @click.prevent="emit('open-lead')"
           >
             <img src="../assets/icons/call.svg" alt="" class="h-4 w-4" aria-hidden="true" />
             Заказать звонок

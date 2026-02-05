@@ -1,9 +1,11 @@
 <script setup>
 import bg from '../assets/cta/card-cta.svg'
-const emit = defineEmits(['open-lead'])
-
-function openLeadModal() {
-  isLeadModalOpen.value = true
+const goTenderbot = () => {
+  window.open(
+    'https://tenderbot.kz/?utm_source=goszakup.com.kz&utm_medium=landing',
+    '_blank',
+    'noopener,noreferrer',
+  )
 }
 </script>
 
@@ -30,7 +32,7 @@ function openLeadModal() {
           <button
             type="button"
             class="rounded-full bg-white font-semibold text-slate-900 transition hover:bg-white/95"
-            @click="emit('open-lead')"
+            @click="goTenderbot()"
           >
             <span class="hidden sm:inline">Хочу посмотреть</span>
             <span class="inline sm:hidden">Узнать больше</span>

@@ -5,7 +5,7 @@ import HeroSection from '@/components/HeroSection.vue'
 import PlatformsSection from '@/components/PlatformsSection.vue'
 import FeaturesSection from '@/components/FeaturesSection.vue'
 import HowItWorksSection from '@/components/HowItWorksSection.vue'
-import FinalCtaSection from '../components/FinalCTASection.vue'
+import FinalCtaSection from '../components/FinalCtaSection.vue'
 import AboutSection from '@/components/AboutSection.vue'
 import LeadModal from '@/components/LeadModal.vue'
 import TeamCtaSection from '../components/TeamCtaSection.vue'
@@ -15,15 +15,15 @@ const leadOpen = ref(false)
 </script>
 
 <template>
-  <HeroSection @open-lead="leadOpen = true" />
+  <HeroSection />
 
   <PlatformsSection />
   <FeaturesSection />
   <TeamCtaSection @open-lead="leadOpen = true" />
   <HowItWorksSection @open-lead="leadOpen = true" />
-  <FinalCtaSection @open-lead="leadOpen = true" />
+  <FinalCtaSection />
   <AboutSection @open-lead="leadOpen = true" />
-  <FooterSection />
+  <FooterSection @open-lead="leadOpen = true" />
 
   <LeadModal :open="leadOpen" @close="leadOpen = false" />
 </template>
