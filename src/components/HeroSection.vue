@@ -14,16 +14,12 @@ const goTenderbot = () => {
     <div
       aria-hidden="true"
       class="absolute inset-0"
-      style="
-        background:
-          radial-gradient(900px 520px at 50% 10%, rgba(255, 255, 255, 0.18), transparent 60%),
-          linear-gradient(135deg, #38bdf8 0%, #2563eb 45%, #4338ca 100%);
-      "
+      style="background: linear-gradient(135deg, #00a6f4 0%, #0084d1 45%, #1447e6 100%)"
     />
 
     <div
       aria-hidden="true"
-      class="pointer-events-none absolute inset-0 opacity-[0.75] mix-blend-overlay"
+      class="pointer-events-none absolute inset-0 opacity-[0.95] mix-blend-overlay"
       :style="{
         backgroundImage: `url(${bgShapeUrl})`,
         backgroundRepeat: 'no-repeat',
@@ -33,7 +29,7 @@ const goTenderbot = () => {
     ></div>
     <div
       aria-hidden="true"
-      class="pointer-events-none absolute inset-0 opacity-[0.75] mix-blend-overlay"
+      class="pointer-events-none absolute inset-0 opacity-[0.95] mix-blend-overlay"
       :style="{
         backgroundImage: `url(${bgShapeUrl})`,
         backgroundRepeat: 'no-repeat',
@@ -61,7 +57,7 @@ const goTenderbot = () => {
         <div class="mx-auto mt-8 flex justify-center">
           <button
             type="button"
-            class="mx-auto inline-flex min-w-[177.15px] items-center justify-center rounded-full bg-white px-6 py-2 text-sm font-semibold text-slate-900 shadow-lg shadow-black/10 transition hover:-translate-y-[1px] hover:bg-white/95 active:translate-y-0"
+            class="mx-auto inline-flex min-w-[190px] items-center justify-center rounded-full bg-white px-6 py-2 text-sm font-semibold text-slate-900 shadow-lg shadow-black/10 transition hover:-translate-y-[1px] hover:bg-white/95 active:translate-y-0"
             @click="goTenderbot()"
           >
             Узнать больше

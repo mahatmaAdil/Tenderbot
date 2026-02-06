@@ -3,7 +3,7 @@ const steps = [
   {
     n: '01',
     title: 'Вы задаёте параметры',
-    text: 'Отрасль, регион, сумма, заказчик, ключевые слова.',
+    text: 'Отрасль, регион, сумма, заказчик, ключевые слова. ',
   },
   {
     n: '02',
@@ -21,7 +21,7 @@ const steps = [
 <template>
   <section class="">
     <div class="container-app py-14 sm:py-16">
-      <h2 class="text-center text-2xl font-bold text-slate-900 sm:text-3xl">
+      <h2 class="text-center text-2xl font-semibold text-slate-900 sm:text-3xl">
         Как работает сервис?
       </h2>
 
@@ -29,19 +29,22 @@ const steps = [
         <div v-for="s in steps" :key="s.n" class="card-step">
           <div class="pointer-events-none absolute inset-x-0 bottom-[7px] h-[7px]"></div>
 
-          <div class="flex items-start gap-4">
+          <div class="flex items-center gap-4">
             <div
-              class="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-blue-100 text-base font-bold text-[#078EE6]"
+              class="grid h-16 w-16 shrink-0 place-items-center rounded-full bg-[#D3E8F6] text-[25px] font-bold text-[#078EE6]"
             >
               {{ s.n }}
             </div>
 
             <div>
-              <div class="text-sm font-semibold text-slate-900">
+              <div class="text-base font-semibold text-slate-900">
                 {{ s.title }}
               </div>
 
-              <p class="mt-1.5 text-xs leading-relaxed text-slate-500">
+              <p
+                class="text-sm leading-relaxed text-slate-500"
+                :class="{ 'step-text-fix': s.n === '01' }"
+              >
                 {{ s.text }}
               </p>
             </div>
@@ -53,6 +56,12 @@ const steps = [
 </template>
 
 <style scoped>
+.step-text-fix::after {
+  content: 'xxxxxxxxxxxxxxxxxxxx';
+  opacity: 0;
+  pointer-events: none;
+  user-select: none;
+}
 .card-step {
   position: relative;
   overflow: hidden;
@@ -68,11 +77,8 @@ const steps = [
   left: 0;
   right: 0;
   bottom: 0;
-
   height: 7px;
-
-  background: linear-gradient(90deg, #fff 0%, #078ee6 50%, #fff 100%);
-
+  background: linear-gradient(90deg, #088ee600 10%, #078ee5 50%, #098fe500 90%);
   mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 60%, rgba(0, 0, 0, 0));
 }
 </style>

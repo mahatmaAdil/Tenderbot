@@ -9,7 +9,10 @@ const emit = defineEmits(['open-lead'])
       class="container-app mt-8 flex flex-col items-center gap-4 border-t border-slate-200 py-10 pt-6 text-center sm:flex-row sm:items-center sm:justify-between sm:text-left"
     >
       <img src="../assets/icons/Tenderbot.svg" />
-      <div class="text-xs text-slate-500">© {{ year }} Tenderbot.kz. Все права защищены.</div>
+      <div class="text-xs text-slate-500">
+        © {{ year }} Tenderbot.kz. —<br />
+        Тендеры и госзакупки Казахстана
+      </div>
 
       <ul class="space-y-2 text-sm text-slate-600">
         <li class="flex flex-col gap-1">

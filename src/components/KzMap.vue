@@ -176,6 +176,15 @@ onMounted(async () => {
 
     hitLayer.appendChild(circle)
 
+    circle.addEventListener('mouseenter', () => {
+      circle.setAttribute('fill', '#93c5fd')
+      circle.setAttribute('stroke', 'rgba(59,130,246,1)')
+    })
+
+    circle.addEventListener('mouseleave', () => {
+      circle.setAttribute('fill', 'rgba(59,130,246,0.15)')
+      circle.setAttribute('stroke', 'rgba(59,130,246,0.65)')
+    })
     circle.addEventListener('click', (e) => {
       e.stopPropagation()
       handleRegionClick(id, e)

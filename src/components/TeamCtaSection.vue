@@ -6,7 +6,7 @@ const emit = defineEmits(['open-lead'])
   <section class="">
     <div class="container-app">
       <div
-        class="flex flex-col items-center justify-between gap-4 rounded-2xl px-6 py-5 text-white sm:flex-row bg-[radial-gradient(900px_520px_at_50%_10%,rgba(255,255,255,0.18),transparent_90%),linear-gradient(135deg,#38bdf8_0%,#2563eb_45%,#4338ca_100%)] shadow-[0_20px_60px_rgba(37,99,235,0.35)]"
+        class="flex flex-col items-center justify-between gap-4 rounded-2xl px-6 py-5 text-white sm:flex-row bg-[#078EE6]"
       >
         <p class="max-w-[900px] text-sm font-medium">
           На вас работает команда закупщиков, отдел технической поддержки, юристов, которые сделают

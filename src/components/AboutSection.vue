@@ -44,16 +44,15 @@ function onSubmit() {
             <img
               :src="tenderbotIcon"
               alt="Tenderbot"
-              class="mb-6 mt-0 translate-y-0 sm:-mt-10 sm:-translate-y-3 w-auto max-w-full select-none"
+              class="pt-0 sm:pt-10 mt-4 translate-y-0 sm:-mt-10 sm:-translate-y-3 w-auto max-w-full select-none"
               draggable="false"
             />
             <div
-              class="text-2xl max-w-[444px] font-semibold text-weight-600 text-slate-900 sm:text-4xl"
+              class="text-2xl max-w-[400px] font-semibold text-weight-600 text-slate-900 sm:text-4xl"
             >
-              Всё ещё думаете?<br />
-              Просто попробуйте
+              Всё ещё думаете?<br />Просто <br />попробуйте
             </div>
-            <p class="mt-4 max-w-[615px] text-[15px] leading-relaxed text-slate-600">
+            <p class="mt-4 max-w-[400px] text-[15px] leading-relaxed text-slate-600">
               Если сомневаетесь или что-то не поняли - смело оставляйте свои контакты. Наш менеджер
               перезвонит и поможет начать работать в сервисе.
             </p>
@@ -62,24 +61,7 @@ function onSubmit() {
             <form class="grid gap-3" @submit.prevent="onSubmit">
               <label class="relative block">
                 <img
-                  src="@/assets/icons/icon4.svg"
-                  alt=""
-                  class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 opacity-70"
-                />
-
-                <select
-                  v-model="country"
-                  class="h-11 w-full appearance-none rounded-xl border border-slate-200 pl-10 pr-8 text-sm outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-100"
-                >
-                  <option>Казахстан</option>
-                  <option>Кыргызстан</option>
-                  <option>Узбекистан</option>
-                </select>
-              </label>
-
-              <label class="relative block">
-                <img
-                  src="../assets/icons/icon5.svg"
+                  src="@/assets/icons/icon5.svg"
                   alt=""
                   class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 opacity-70"
                 />
@@ -92,7 +74,7 @@ function onSubmit() {
               </label>
               <label class="relative block">
                 <img
-                  src="../assets/icons/icon6.svg"
+                  src="@/assets/icons/icon6.svg"
                   alt=""
                   class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 opacity-70"
                 />
@@ -108,7 +90,7 @@ function onSubmit() {
 
               <button
                 type="submit"
-                class="mt-2 h-11 rounded-xl bg-blue-600 text-sm font-semibold text-white transition hover:bg-blue-500"
+                class="mt-2 h-11 rounded-xl bg-[#078EE6] text-sm font-semibold text-white transition hover:bg-blue-400"
               >
                 Отправить заявку
               </button>
