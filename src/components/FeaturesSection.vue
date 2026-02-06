@@ -1,27 +1,27 @@
 <script setup>
-import icon1 from '../assets/features/Features1.svg'
-import icon2 from '../assets/features/Features2.svg'
-import icon3 from '../assets/features/Features3.svg'
-import icon4 from '../assets/features/Features4.svg'
+import feature1 from '@/assets/features/Features1.svg'
+import feature2 from '@/assets/features/Features2.svg'
+import feature3 from '@/assets/features/Features3.svg'
+import feature4 from '@/assets/features/Features4.svg'
 
 const features = [
   {
-    icon: icon1,
+    icon: feature1,
     title: '142 тендерные площадки',
     text: 'Вся база госзакупок и коммерческих тендеров Казахстана: Omarket, Госзакупки, Самрук Казына, Tizilim, Mitwork и другие.',
   },
   {
-    icon: icon2,
+    icon: feature2,
     title: 'Регулярная подборка тендеров',
     text: 'Автоматизированные email-рассылки и персональные подборки без ограничений. Умный поиск по 16 фильтрам.',
   },
   {
-    icon: icon3,
+    icon: feature3,
     title: 'Сопровождение и обучение',
     text: 'Помощь в участии в госзакупках и коммерческих тендерах, подготовка заявок и поддержка практикующих закупщиков.',
   },
   {
-    icon: icon4,
+    icon: feature4,
     title: 'Сделано для бизнеса',
     text: 'Разовые подачи, гибкие тарифы, поддержка через мессенджеры. Платформа ищет тендеры для вас 24/7.',
   },
