@@ -1,5 +1,5 @@
 <script setup>
-import bgShapeUrl from '../assets/bg-shape.svg'
+import bgShapeUrl from '@/assets/bg-shape.svg'
 const goTenderbot = () => {
   window.open(
     'https://tenderbot.kz/?utm_source=goszakup.com.kz&utm_medium=landing',

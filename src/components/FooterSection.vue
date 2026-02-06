@@ -19,7 +19,7 @@ const emit = defineEmits(['open-lead'])
             href="#"
             @click.prevent="emit('open-lead')"
           >
-            <img src="../assets/icons/call.svg" alt="" class="h-4 w-4" aria-hidden="true" />
+            <img src="@/assets/icons/call.svg" alt="" class="h-4 w-4" aria-hidden="true" />
             Заказать звонок
           </a>
         </li>
@@ -33,7 +33,7 @@ const emit = defineEmits(['open-lead'])
           rel="noopener noreferrer"
           aria-label="WhatsApp"
         >
-          <img src="../assets/contacts/whatsApp.svg" alt="" class="h-7 w-7" aria-hidden="true" />
+          <img src="@/assets/contacts/whatsApp.svg" alt="" class="h-7 w-7" aria-hidden="true" />
         </a>
         <a
           class="text-slate-500 hover:text-slate-900"
@@ -42,16 +42,16 @@ const emit = defineEmits(['open-lead'])
           rel="noopener noreferrer"
           aria-label="Telegram"
         >
-          <img src="../assets/contacts/telegram.svg" alt="" class="h-7 w-7" aria-hidden="true" />
+          <img src="@/assets/contacts/telegram.svg" alt="" class="h-7 w-7" aria-hidden="true" />
         </a>
         <a
           class="text-slate-500 hover:text-slate-900"
           href="https://www.facebook.com/tenderbotkz"
           target="_blank"
-          rel="noopener noreferrer"
+          rel="noope.ner noreferrer"
           aria-label="facebook"
         >
-          <img src="../assets/contacts/facebook.svg" alt="" class="h-7 w-7" aria-hidden="true" />
+          <img src="@/assets/contacts/facebook.svg" alt="" class="h-7 w-7" aria-hidden="true" />
         </a>
         <a
           class="text-slate-500 hover:text-slate-900"
@@ -60,7 +60,7 @@ const emit = defineEmits(['open-lead'])
           rel="noopener noreferrer"
           aria-label="Instagram"
         >
-          <img src="../assets/contacts/instagrem.svg" alt="" class="h-7 w-7" aria-hidden="true" />
+          <img src="@/assets/contacts/instagrem.svg" alt="" class="h-7 w-7" aria-hidden="true" />
         </a>
 
         <a
@@ -70,7 +70,7 @@ const emit = defineEmits(['open-lead'])
           rel="noopener noreferrer"
           aria-label="youtube"
         >
-          <img src="../assets/contacts/youtube.svg" alt="" class="h-7 w-7" aria-hidden="true" />
+          <img src="@/assets/contacts/youtube.svg" alt="" class="h-7 w-7" aria-hidden="true" />
         </a>
       </div>
     </div>

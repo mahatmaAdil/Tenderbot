@@ -1,10 +1,10 @@
 <script setup>
-import KzMap from './KzMap.vue'
+import KzMap from '@/components/KzMap.vue'
 
-import logo1 from '../assets/platforms/logo1.svg'
-import logo2 from '../assets/platforms/logo2.svg'
-import samruk from '../assets/platforms/samruk.svg'
-import logo3 from '../assets/platforms/logo3.svg'
+import logo1 from '@/assets/platforms/logo1.svg'
+import logo2 from '@/assets/platforms/logo2.svg'
+import samruk from '@/assets/platforms/samruk.svg'
+import logo3 from '@/assets/platforms/logo3.svg'
 </script>
 
 <template>

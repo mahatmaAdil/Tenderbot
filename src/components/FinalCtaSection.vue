@@ -1,5 +1,4 @@
 <script setup>
-import bg from '../assets/cta/card-cta.svg'
 const goTenderbot = () => {
   window.open(
     'https://tenderbot.kz/?utm_source=goszakup.com.kz&utm_medium=landing',

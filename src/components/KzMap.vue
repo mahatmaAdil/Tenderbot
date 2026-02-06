@@ -1,7 +1,7 @@
 <script setup>
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
-import mapSvgRaw from '../assets/map.svg?raw'
-import { regions } from '../data/regions'
+import mapSvgRaw from '@/assets/map.svg?raw'
+import { regions } from '@/data/regions'
 
 const props = defineProps({
   modelValue: { type: String, default: '' },

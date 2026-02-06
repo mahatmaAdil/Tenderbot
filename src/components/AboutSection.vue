@@ -1,9 +1,9 @@
 <script setup>
 import { ref } from 'vue'
-import tenderbotIcon from '../assets/icons/tenderbot.svg'
-import icon1 from '../assets/icons/icon1.svg'
-import icon2 from '../assets/icons/icon2.svg'
-import icon3 from '../assets/icons/icon3.svg'
+import tenderbotIcon from '@/assets/icons/Tenderbot.svg'
+import icon1 from '@/assets/icons/icon1.svg'
+import icon2 from '@/assets/icons/icon2.svg'
+import icon3 from '@/assets/icons/icon3.svg'
 const country = ref('Казахстан')
 const name = ref('')
 const phone = ref('')
@@ -62,7 +62,7 @@ function onSubmit() {
             <form class="grid gap-3" @submit.prevent="onSubmit">
               <label class="relative block">
                 <img
-                  src="../assets/icons/icon4.svg"
+                  src="@/assets/icons/icon4.svg"
                   alt=""
                   class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 opacity-70"
                 />
