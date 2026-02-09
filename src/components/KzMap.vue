@@ -6,7 +6,6 @@ import { regions } from '@/data/regions'
 const props = defineProps({
   modelValue: { type: String, default: '' },
 })
-
 const emit = defineEmits(['update:modelValue', 'select'])
 
 const host = ref(null)
@@ -24,18 +23,23 @@ const tooltip = ref({
 })
 
 const isMobile = ref(false)
+const tendersLoading = ref(false)
+const tendersError = ref('')
+
+let svgEl = null
+
+const norm = (s) =>
+  String(s ?? '')
+    .trim()
+    .toLowerCase()
+
 function updateIsMobile() {
   isMobile.value = window.innerWidth < 768
 }
 
-const regionMap = computed(() => {
-  const m = new Map()
-  regions.forEach((r) => m.set(r.id, r))
-  return m
-})
-
-function getMapNameById(id) {
-  return regionMap.value.get(id)?.mapName || id
+function closeTooltip() {
+  tooltip.value.visible = false
+  tooltip.value.region = null
 }
 
 function setActive(id, name, tenders) {
@@ -43,9 +47,72 @@ function setActive(id, name, tenders) {
   emit('select', { id, name, tenders })
 }
 
-function closeTooltip() {
-  tooltip.value.visible = false
-  tooltip.value.region = null
+const regionMap = computed(() => {
+  const m = new Map()
+  for (const r of regions) m.set(r.id, r)
+  return m
+})
+
+const katoToId = computed(() => {
+  const m = new Map()
+  for (const r of regions) {
+    if (r.xml_id != null) m.set(String(r.xml_id), r.id)
+  }
+  return m
+})
+
+const regionIdByMapName = computed(() => {
+  const m = new Map()
+  for (const r of regions) {
+    if (r.mapName) m.set(norm(r.mapName), r.id)
+  }
+  return m
+})
+
+const tendersById = ref(new Map())
+
+function getMapNameById(id) {
+  return regionMap.value.get(id)?.mapName || id
+}
+
+function getTendersByRegionId(id) {
+  return Number(tendersById.value.get(String(id)) ?? regionMap.value.get(id)?.tenders ?? 0)
+}
+
+async function loadTenders() {
+  tendersLoading.value = true
+  tendersError.value = ''
+  try {
+    const res = await fetch('https://api.tenderbot.kz/api/promo/kato-list', {
+      headers: { Accept: 'application/json' },
+    })
+    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+
+    const data = await res.json()
+    const arr = Array.isArray(data) ? data : Array.isArray(data?.data) ? data.data : []
+
+    const next = new Map()
+    for (const item of arr) {
+      const rawId = item?.xml_id
+      if (rawId == null) continue
+
+      const mappedId = katoToId.value.get(String(rawId))
+      if (!mappedId) continue
+
+      next.set(String(mappedId), Number(item?.lots_count ?? 0))
+    }
+
+    tendersById.value = next
+
+    if (tooltip.value.visible && tooltip.value.region?.id) {
+      const id = tooltip.value.region.id
+      tooltip.value.region = { ...tooltip.value.region, tenders: getTendersByRegionId(id) }
+    }
+  } catch (e) {
+    tendersError.value = e?.message || 'Не удалось загрузить тендеры'
+  } finally {
+    tendersLoading.value = false
+  }
 }
 
 function openTooltipDesktop(e, region) {
@@ -72,7 +139,6 @@ function onDocPointerDown(e) {
 function applyActiveClass() {
   const root = host.value
   if (!root) return
-
   root.querySelectorAll('path[id]').forEach((p) => {
     p.classList.toggle('is-active', p.id === activeId.value)
   })
@@ -80,13 +146,112 @@ function applyActiveClass() {
 
 watch(activeId, applyActiveClass, { immediate: true })
 
-let svgEl = null
+function handleRegionClick(id, e) {
+  const r = regionMap.value.get(id)
+
+  const region = {
+    id,
+    name: r?.name || id,
+    tenders: getTendersByRegionId(id),
+  }
+
+  setActive(region.id, region.name, region.tenders)
+
+  if (tooltip.value.visible && tooltip.value.region?.id === region.id) {
+    closeTooltip()
+    return
+  }
+
+  if (isMobile.value) {
+    tooltip.value.visible = true
+    tooltip.value.region = region
+    return
+  }
+
+  openTooltipDesktop(e, region)
+}
+
+function addCityHitCircles(paths) {
+  const cityNames = ['Астана', 'Алматы', 'Шымкент']
+
+  const hitLayer = document.createElementNS('http://www.w3.org/2000/svg', 'g')
+  hitLayer.setAttribute('data-hit-layer', 'true')
+  svgEl.appendChild(hitLayer)
+
+  for (const cityName of cityNames) {
+    const id = regionIdByMapName.value.get(norm(cityName))
+    if (!id) continue
+
+    const path = Array.from(paths).find((p) => p.id === id)
+    if (!path) continue
+
+    const cfg = regionMap.value.get(id) || {}
+    const bb = path.getBBox()
+
+    const cx = bb.x + bb.width / 2 + Number(cfg.hitDx || 0)
+    const cy = bb.y + bb.height / 2 + Number(cfg.hitDy || 0)
+    const rr = Number(cfg.hitR || (isMobile.value ? 26 : 20))
+
+    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle')
+    circle.setAttribute('cx', String(cx))
+    circle.setAttribute('cy', String(cy))
+    circle.setAttribute('r', String(rr))
+    circle.setAttribute('fill', 'rgba(59,130,246,0.15)')
+    circle.setAttribute('stroke', 'rgba(59,130,246,0.65)')
+    circle.setAttribute('stroke-width', '2')
+    circle.setAttribute('pointer-events', 'all')
+    circle.style.cursor = 'pointer'
+
+    hitLayer.appendChild(circle)
+
+    circle.addEventListener('mouseenter', () => {
+      circle.setAttribute('fill', '#93c5fd')
+      circle.setAttribute('stroke', 'rgba(59,130,246,1)')
+    })
+    circle.addEventListener('mouseleave', () => {
+      circle.setAttribute('fill', 'rgba(59,130,246,0.15)')
+      circle.setAttribute('stroke', 'rgba(59,130,246,0.65)')
+    })
+    circle.addEventListener('click', (e) => {
+      e.stopPropagation()
+      handleRegionClick(id, e)
+    })
+  }
+}
+
+function addRegionLabels(paths) {
+  for (const path of paths) {
+    const id = path.id
+    const label = getMapNameById(id)
+    if (!label || label === id) continue
+
+    const cfg = regionMap.value.get(id) || {}
+    const bbox = path.getBBox()
+    const x = bbox.x + bbox.width / 2 + Number(cfg.labelDx || 0)
+    const y = bbox.y + bbox.height / 2 + Number(cfg.labelDy || 0)
+
+    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text')
+    text.setAttribute('x', String(x))
+    text.setAttribute('y', String(y))
+    text.setAttribute('text-anchor', 'middle')
+    text.setAttribute('dominant-baseline', 'middle')
+    text.setAttribute('pointer-events', 'none')
+    text.setAttribute('fill', '#0f172a')
+    text.setAttribute('font-size', '13')
+    text.setAttribute('font-weight', '700')
+    text.setAttribute('font-family', 'Inter, Helvetica, Arial, sans-serif')
+    text.textContent = label
+
+    svgEl.appendChild(text)
+  }
+}
 
 onMounted(async () => {
   updateIsMobile()
   window.addEventListener('resize', updateIsMobile)
   document.addEventListener('pointerdown', onDocPointerDown)
 
+  loadTenders()
   await nextTick()
 
   const root = host.value
@@ -101,31 +266,6 @@ onMounted(async () => {
 
   const paths = root.querySelectorAll('path[id]')
 
-  function handleRegionClick(id, e) {
-    const r = regionMap.value.get(id)
-
-    const region = {
-      id,
-      name: r?.name || id,
-      tenders: Number(r?.tenders ?? 0),
-    }
-
-    setActive(region.id, region.name, region.tenders)
-
-    if (tooltip.value.visible && tooltip.value.region?.id === region.id) {
-      closeTooltip()
-      return
-    }
-
-    if (isMobile.value) {
-      tooltip.value.visible = true
-      tooltip.value.region = region
-      return
-    }
-
-    openTooltipDesktop(e, region)
-  }
-
   paths.forEach((p) => {
     p.classList.add('region')
     p.addEventListener('click', (e) => {
@@ -134,87 +274,8 @@ onMounted(async () => {
     })
   })
 
-  const cityNames = ['Астана', 'Алматы', 'Шымкент']
-
-  const hitLayer = document.createElementNS('http://www.w3.org/2000/svg', 'g')
-  hitLayer.setAttribute('data-hit-layer', 'true')
-  svgEl.appendChild(hitLayer)
-
-  const norm = (s) =>
-    String(s ?? '')
-      .trim()
-      .toLowerCase()
-
-  cityNames.forEach((cityName) => {
-    const region = regions.find((r) => norm(r.mapName) === norm(cityName))
-    if (!region?.id) return
-
-    const id = region.id
-    const cityPath = Array.from(paths).find((p) => p.id === id)
-    if (!cityPath) return
-
-    const cfg = regionMap.value.get(id) || {}
-    const bb = cityPath.getBBox()
-
-    const cx = bb.x + bb.width / 2 + Number(cfg.hitDx || 0)
-    const cy = bb.y + bb.height / 2 + Number(cfg.hitDy || 0)
-    const rr = Number(cfg.hitR || (isMobile.value ? 26 : 20))
-
-    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle')
-    circle.setAttribute('cx', String(cx))
-    circle.setAttribute('cy', String(cy))
-    circle.setAttribute('r', String(rr))
-
-    circle.setAttribute('fill', 'transparent')
-
-    circle.setAttribute('fill', 'rgba(59,130,246,0.15)')
-    circle.setAttribute('stroke', 'rgba(59,130,246,0.65)')
-    circle.setAttribute('stroke-width', '2')
-
-    circle.setAttribute('pointer-events', 'all')
-    circle.style.cursor = 'pointer'
-
-    hitLayer.appendChild(circle)
-
-    circle.addEventListener('mouseenter', () => {
-      circle.setAttribute('fill', '#93c5fd')
-      circle.setAttribute('stroke', 'rgba(59,130,246,1)')
-    })
-
-    circle.addEventListener('mouseleave', () => {
-      circle.setAttribute('fill', 'rgba(59,130,246,0.15)')
-      circle.setAttribute('stroke', 'rgba(59,130,246,0.65)')
-    })
-    circle.addEventListener('click', (e) => {
-      e.stopPropagation()
-      handleRegionClick(id, e)
-    })
-  })
-
-  paths.forEach((path) => {
-    const id = path.id
-    const label = getMapNameById(id)
-    if (!label || label === id) return
-
-    const bbox = path.getBBox()
-    const cfg = regionMap.value.get(id) || {}
-    const x = bbox.x + bbox.width / 2 + Number(cfg.labelDx || 0)
-    const y = bbox.y + bbox.height / 2 + Number(cfg.labelDy || 0)
-
-    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text')
-    text.setAttribute('x', x)
-    text.setAttribute('y', y)
-    text.setAttribute('text-anchor', 'middle')
-    text.setAttribute('dominant-baseline', 'middle')
-    text.setAttribute('pointer-events', 'none')
-    text.setAttribute('fill', '#0f172a')
-    text.setAttribute('font-size', '13')
-    text.setAttribute('font-weight', '700')
-    text.setAttribute('font-family', 'Inter, Helvetica, Arial, sans-serif')
-
-    text.textContent = label
-    svgEl.appendChild(text)
-  })
+  addCityHitCircles(paths)
+  addRegionLabels(paths)
 
   applyActiveClass()
 })
