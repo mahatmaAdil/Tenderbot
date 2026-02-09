@@ -13,12 +13,8 @@ const error = ref('')
 const success = ref(false)
 
 const utmSource = computed(() => {
-  try {
-    const url = new URL(window.location.href)
-    return url.searchParams.get('utm_source') || ''
-  } catch {
-    return ''
-  }
+  if (typeof window === 'undefined') return ''
+  return new URLSearchParams(window.location.search).get('utm_source') || ''
 })
 
 function normalizePhone(p) {
@@ -41,8 +37,10 @@ async function onSubmit() {
     error.value = 'Введите имя'
     return
   }
-  if (!payload.phone) {
-    error.value = 'Введите телефон'
+
+  const digits = payload.phone.replace(/\D/g, '')
+  if (!digits || digits.length < 10) {
+    error.value = 'Введите корректный телефон'
     return
   }
 
@@ -52,7 +50,9 @@ async function onSubmit() {
       method: 'POST',
       headers: {
         Accept: 'application/json',
-        Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjY2MTNiMDZiZTIyOWYxNDM4NTcxOTdhZmExODhjZTk1NDYyMDRlNWVmOWU0ZGI3NDg4OTJhMTJlZGI2NTJlMTI4OGQ2MWUxZmY0MDZjZGIxIn0.eyJhdWQiOiIxIiwianRpIjoiNjYxM2IwNmJlMjI5ZjE0Mzg1NzE5N2FmYTE4OGNlOTU0NjIwNGU1ZWY5ZTRkYjc0ODg5MmExMmVkYjY1MmUxMjg4ZDYxZTFmZjQwNmNkYjEiLCJpYXQiOjE3NzAzODExMTMsIm5iZiI6MTc3MDM4MTExMywiZXhwIjoxODAxOTE3MTEzLCJzdWIiOiI2Mjg0NiIsInNjb3BlcyI6W119.oGyWJq8HTSeXprjrJWDnoI1TaNcXKJt12asm3wJBtfMEcCvkWPfbh61JeWqLwUX8JP_I2AuILNw9I-xGvaqNAZyO43odolzgDm6RzCuQstfESPuSk7J70l4juf49IiG88V_jX7xrdLOcXSwhsRD6ov9DgpuZQ91hfipYITa_oB0e6t-VjKCDWiJG5WyTbWno_l172CaGk9iGBHrTFAm13OFfNlimY4aTzgnAuFLFIzsUlkRHhDO22CrPlnpyYrELe498AFUAPsWXi4lj3xiPdM8iK7wdcGHLWkXz5mkbrS3z1nXgXbjRKirBmSsNFYuM9IIHdEmC8fZYQLieFO4fmNBedX4gmQo59eLtrwiQLEi3tiB9u5j9KAu3CnfQmE1TItyft-X8byBOi7_PSIwECmm4w_Je229i8hGKNa1jxbJVOD6BCoQFI0JjZsRNqcXv_-WLAMkrivZsMVIZ1I23uWuPslAbqQ8xjPkLnpTd-Qf5VkN068nCrWgEpyodVfjuVRRBmPSIwXLE96I5rF98WJcxI7WBBkEA8nbQ55Ez4pohICbs4McA7gpHz2WoF4NGbrLjcGYlhtucgwr4Dvqd_Hz94QErlc21laLDPA8vADIK13yYfMePilr4cF6pUXKUJq2lMnum0_y7mK98QEASgq7fcHCAqzeYE8IVcqA8Qno`,
+        'Content-Type': 'application/json',
+        Authorization:
+          'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjY2MTNiMDZiZTIyOWYxNDM4NTcxOTdhZmExODhjZTk1NDYyMDRlNWVmOWU0ZGI3NDg4OTJhMTJlZGI2NTJlMTI4OGQ2MWUxZmY0MDZjZGIxIn0.eyJhdWQiOiIxIiwianRpIjoiNjYxM2IwNmJlMjI5ZjE0Mzg1NzE5N2FmYTE4OGNlOTU0NjIwNGU1ZWY5ZTRkYjc0ODg5MmExMmVkYjY1MmUxMjg4ZDYxZTFmZjQwNmNkYjEiLCJpYXQiOjE3NzAzODExMTMsIm5iZiI6MTc3MDM4MTExMywiZXhwIjoxODAxOTE3MTEzLCJzdWIiOiI2Mjg0NiIsInNjb3BlcyI6W119.oGyWJq8HTSeXprjrJWDnoI1TaNcXKJt12asm3wJBtfMEcCvkWPfbh61JeWqLwUX8JP_I2AuILNw9I-xGvaqNAZyO43odolzgDm6RzCuQstfESPuSk7J70l4juf49IiG88V_jX7xrdLOcXSwhsRD6ov9DgpuZQ91hfipYITa_oB0e6t-VjKCDWiJG5WyTbWno_l172CaGk9iGBHrTFAm13OFfNlimY4aTzgnAuFLFIzsUlkRHhDO22CrPlnpyYrELe498AFUAPsWXi4lj3xiPdM8iK7wdcGHLWkXz5mkbrS3z1nXgXbjRKirBmSsNFYuM9IIHdEmC8fZYQLieFO4fmNBedX4gmQo59eLtrwiQLEi3tiB9u5j9KAu3CnfQmE1TItyft-X8byBOi7_PSIwECmm4w_Je229i8hGKNa1jxbJVOD6BCoQFI0JjZsRNqcXv_-WLAMkrivZsMVIZ1I23uWuPslAbqQ8xjPkLnpTd-Qf5VkN068nCrWgEpyodVfjuVRRBmPSIwXLE96I5rF98WJcxI7WBBkEA8nbQ55Ez4pohICbs4McA7gpHz2WoF4NGbrLjcGYlhtucgwr4Dvqd_Hz94QErlc21laLDPA8vADIK13yYfMePilr4cF6pUXKUJq2lMnum0_y7mK98QEASgq7fcHCAqzeYE8IVcqA8Qno',
       },
       body: JSON.stringify(payload),
     })
@@ -73,6 +73,7 @@ async function onSubmit() {
     success.value = true
     name.value = ''
     phone.value = ''
+    setTimeout(() => (success.value = false), 2500)
   } catch (e) {
     error.value = e?.message || 'Не удалось отправить заявку'
   } finally {

@@ -42,9 +42,9 @@ function closeTooltip() {
   tooltip.value.region = null
 }
 
-function setActive(id, name, tenders) {
+function setActive(id, name, tenders, url) {
   emit('update:modelValue', id)
-  emit('select', { id, name, tenders })
+  emit('select', { id, name, tenders, url })
 }
 
 const regionMap = computed(() => {
@@ -82,6 +82,7 @@ function getTendersByRegionId(id) {
 async function loadTenders() {
   tendersLoading.value = true
   tendersError.value = ''
+
   try {
     const res = await fetch('https://api.tenderbot.kz/api/promo/kato-list', {
       headers: { Accept: 'application/json' },
@@ -92,6 +93,7 @@ async function loadTenders() {
     const arr = Array.isArray(data) ? data : Array.isArray(data?.data) ? data.data : []
 
     const next = new Map()
+
     for (const item of arr) {
       const rawId = item?.xml_id
       if (rawId == null) continue
@@ -106,7 +108,10 @@ async function loadTenders() {
 
     if (tooltip.value.visible && tooltip.value.region?.id) {
       const id = tooltip.value.region.id
-      tooltip.value.region = { ...tooltip.value.region, tenders: getTendersByRegionId(id) }
+      tooltip.value.region = {
+        ...tooltip.value.region,
+        tenders: getTendersByRegionId(id),
+      }
     }
   } catch (e) {
     tendersError.value = e?.message || 'Не удалось загрузить тендеры'
@@ -139,6 +144,7 @@ function onDocPointerDown(e) {
 function applyActiveClass() {
   const root = host.value
   if (!root) return
+
   root.querySelectorAll('path[id]').forEach((p) => {
     p.classList.toggle('is-active', p.id === activeId.value)
   })
@@ -153,9 +159,10 @@ function handleRegionClick(id, e) {
     id,
     name: r?.name || id,
     tenders: getTendersByRegionId(id),
+    url: r?.url || '',
   }
 
-  setActive(region.id, region.name, region.tenders)
+  setActive(region.id, region.name, region.tenders, region.url)
 
   if (tooltip.value.visible && tooltip.value.region?.id === region.id) {
     closeTooltip()
@@ -193,25 +200,16 @@ function addCityHitCircles(paths) {
     const rr = Number(cfg.hitR || (isMobile.value ? 26 : 20))
 
     const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle')
-    circle.setAttribute('cx', String(cx))
-    circle.setAttribute('cy', String(cy))
-    circle.setAttribute('r', String(rr))
+    circle.setAttribute('cx', cx)
+    circle.setAttribute('cy', cy)
+    circle.setAttribute('r', rr)
     circle.setAttribute('fill', 'rgba(59,130,246,0.15)')
     circle.setAttribute('stroke', 'rgba(59,130,246,0.65)')
     circle.setAttribute('stroke-width', '2')
-    circle.setAttribute('pointer-events', 'all')
     circle.style.cursor = 'pointer'
 
     hitLayer.appendChild(circle)
 
-    circle.addEventListener('mouseenter', () => {
-      circle.setAttribute('fill', '#93c5fd')
-      circle.setAttribute('stroke', 'rgba(59,130,246,1)')
-    })
-    circle.addEventListener('mouseleave', () => {
-      circle.setAttribute('fill', 'rgba(59,130,246,0.15)')
-      circle.setAttribute('stroke', 'rgba(59,130,246,0.65)')
-    })
     circle.addEventListener('click', (e) => {
       e.stopPropagation()
       handleRegionClick(id, e)
@@ -226,20 +224,17 @@ function addRegionLabels(paths) {
     if (!label || label === id) continue
 
     const cfg = regionMap.value.get(id) || {}
-    const bbox = path.getBBox()
-    const x = bbox.x + bbox.width / 2 + Number(cfg.labelDx || 0)
-    const y = bbox.y + bbox.height / 2 + Number(cfg.labelDy || 0)
+    const bb = path.getBBox()
 
     const text = document.createElementNS('http://www.w3.org/2000/svg', 'text')
-    text.setAttribute('x', String(x))
-    text.setAttribute('y', String(y))
+    text.setAttribute('x', bb.x + bb.width / 2 + Number(cfg.labelDx || 0))
+    text.setAttribute('y', bb.y + bb.height / 2 + Number(cfg.labelDy || 0))
     text.setAttribute('text-anchor', 'middle')
     text.setAttribute('dominant-baseline', 'middle')
     text.setAttribute('pointer-events', 'none')
     text.setAttribute('fill', '#0f172a')
     text.setAttribute('font-size', '13')
     text.setAttribute('font-weight', '700')
-    text.setAttribute('font-family', 'Inter, Helvetica, Arial, sans-serif')
     text.textContent = label
 
     svgEl.appendChild(text)
@@ -276,9 +271,14 @@ onMounted(async () => {
 
   addCityHitCircles(paths)
   addRegionLabels(paths)
-
   applyActiveClass()
 })
+function onWatchClick() {
+  const url = tooltip.value.region?.url
+  if (!url) return
+
+  window.open(url, '_blank', 'noopener')
+}
 
 onUnmounted(() => {
   window.removeEventListener('resize', updateIsMobile)
@@ -329,7 +329,9 @@ onUnmounted(() => {
 
         <button
           type="button"
-          class="mt-3 inline-flex w-full items-center justify-center rounded-lg bg-blue-600 px-3 py-2 text-xs font-semibold text-white transition hover:bg-blue-700"
+          class="mt-3 inline-flex w-full items-center justify-center rounded-lg bg-blue-600 px-3 py-2 text-xs font-semibold text-white transition hover:bg-blue-700 disabled:bg-slate-200 disabled:text-slate-500 disabled:cursor-not-allowed"
+          :disabled="!tooltip.region?.url"
+          @click="onWatchClick"
         >
           Смотреть
         </button>
@@ -353,7 +355,9 @@ onUnmounted(() => {
 
       <button
         type="button"
-        class="mt-3 inline-flex w-full items-center justify-center rounded-lg bg-blue-600 px-3 py-2 text-xs font-semibold text-white transition hover:bg-blue-700"
+        class="mt-3 inline-flex w-full items-center justify-center rounded-lg bg-blue-600 px-3 py-2 text-xs font-semibold text-white transition hover:bg-blue-700 disabled:bg-slate-200 disabled:text-slate-500 disabled:cursor-not-allowed"
+        :disabled="!tooltip.region?.url"
+        @click="onWatchClick"
       >
         Смотреть
       </button>
