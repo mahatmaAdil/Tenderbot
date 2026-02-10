@@ -319,17 +319,17 @@ onUnmounted(() => {
         @pointerdown.stop
         @click.stop
       >
-        <div class="font-bold text-slate-900">
+        <div class="font-regular text-slate-900">
           {{ tooltip.region?.name }}
         </div>
 
-        <div class="mt-1 text-lg font-bold text-blue-700">
+        <div class="mt-1 text-lg font-semibold text-[#078EE6]">
           {{ tooltip.region?.tenders }} тендеров
         </div>
 
         <button
           type="button"
-          class="mt-3 inline-flex w-full items-center justify-center rounded-lg bg-blue-600 px-3 py-2 text-xs font-semibold text-white transition hover:bg-blue-700 disabled:bg-slate-200 disabled:text-slate-500 disabled:cursor-not-allowed"
+          class="mt-3 inline-flex w-full items-center justify-center rounded-lg bg-[#078EE6] px-3 py-2 text-xs font-semibold text-white transition hover:bg-blue-700 disabled:bg-slate-200 disabled:text-slate-500 disabled:cursor-not-allowed"
           :disabled="!tooltip.region?.url"
           @click="onWatchClick"
         >

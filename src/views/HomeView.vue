@@ -15,13 +15,13 @@ const leadOpen = ref(false)
 </script>
 
 <template>
-  <HeroSection />
+  <HeroSection @open-lead="leadOpen = true" />
 
   <PlatformsSection />
   <FeaturesSection />
   <TeamCtaSection @open-lead="leadOpen = true" />
   <HowItWorksSection @open-lead="leadOpen = true" />
-  <FinalCtaSection />
+  <FinalCtaSection @open-lead="leadOpen = true" />
   <AboutSection @open-lead="leadOpen = true" />
   <FooterSection @open-lead="leadOpen = true" />
 

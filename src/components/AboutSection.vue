@@ -83,7 +83,7 @@ async function onSubmit() {
 </script>
 
 <template>
-  <section class="">
+  <section id="about">
     <div class="container-app py-14 sm:py-18">
       <h2 class="text-center text-2xl font-bold text-slate-900 sm:text-3xl">
         Tenderbot — это не только поиск закупок
@@ -131,7 +131,7 @@ async function onSubmit() {
             </p>
           </div>
 
-          <div class="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6">
+          <div id="form" class="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6">
             <form class="grid gap-3" @submit.prevent="onSubmit">
               <label class="relative block">
                 <img

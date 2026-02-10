@@ -19,7 +19,7 @@ const steps = [
 </script>
 
 <template>
-  <section class="">
+  <section id="how">
     <div class="container-app py-14 sm:py-16">
       <h2 class="text-center text-2xl font-semibold text-slate-900 sm:text-3xl">
         Как работает сервис?

@@ -16,7 +16,7 @@ const emit = defineEmits(['open-lead'])
 
       <ul class="space-y-2 text-sm text-slate-600">
         <li class="flex flex-col gap-1">
-          <span class="font-bold text-slate-500">+7 747 094 42 15</span>
+          <span class="font-bold text-black">+7 747 094 42 15</span>
           <a
             class="inline-flex items-center gap-2 font-semibold text-blue-600 hover:text-blue-700 transition"
             href="#"

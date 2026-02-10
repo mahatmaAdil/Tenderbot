@@ -1,11 +1,5 @@
 <script setup>
-const goTenderbot = () => {
-  window.open(
-    'https://tenderbot.kz/?utm_source=goszakup.com.kz&utm_medium=landing',
-    '_blank',
-    'noopener,noreferrer',
-  )
-}
+const emit = defineEmits(['open-lead'])
 </script>
 
 <template>
@@ -31,7 +25,7 @@ const goTenderbot = () => {
           <button
             type="button"
             class="rounded-full bg-white font-semibold text-slate-900 transition hover:bg-white/95"
-            @click="goTenderbot()"
+            @click="emit('open-lead')"
           >
             <span class="hidden sm:inline">Хочу посмотреть</span>
             <span class="inline sm:hidden">Узнать больше</span>

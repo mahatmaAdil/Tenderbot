@@ -32,13 +32,9 @@ const features = [
   <section class="-mt-10">
     <div class="container-app py-14 sm:py-18">
       <div class="mt-10 grid gap-4 sm:mt-12 sm:grid-cols-2">
-        <div
-          v-for="f in features"
-          :key="f.title"
-          class="rounded-2xl border border-[#D3E8F6] bg-white p-6 shadow-[0_40px_60px_rgba(0,0,0,0.08)]"
-        >
+        <div v-for="f in features" :key="f.title" class="rounded-2xl border bg-white p-6">
           <div
-            class="mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-b from-[#00BCFF] to-[#155DFC] shadow-[0_5px_10px_rgba(30,201,255,0.35),0_40px_80px_rgba(27,92,255,0.35)]"
+            class="mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-b from-[#00BCFF] to-[#155DFC]"
           >
             <img :src="f.icon" alt="" class="h-7 w-7" />
           </div>
