@@ -39,14 +39,14 @@ onUnmounted(() => {
     <img
       :src="bgShapeUrl"
       aria-hidden="true"
-      class="pointer-events-none absolute left-1/2 top-1/2 w-[900px] max-w-none -translate-x-1/2 -translate-y-1/2 opacity-30 mix-blend-overlay sm:w-[1400px] sm:left-[20%] sm:opacity-35"
+      class="pointer-events-none absolute left-1/2 top-1/2 hidden max-w-none -translate-x-1/2 -translate-y-1/2 opacity-100 mix-blend-overlay sm:w-[1400px] sm:left-[20%] sm:opacity-35"
       alt=""
     />
 
     <img
       :src="bgShapeUrl"
       aria-hidden="true"
-      class="pointer-events-none absolute left-1/2 top-1/2 w-[900px] max-w-none -translate-x-1/2 -translate-y-1/2 rotate-180 opacity-85 mix-blend-overlay sm:w-[1200px] sm:left-[65%] sm:opacity-30 lg:w-[1400px] lg:left-[80%] lg:opacity-35"
+      class="pointer-events-none absolute left-1/2 top-1/2 w-[900px] max-w-none -translate-x-1/2 -translate-y-1/2 rotate-180 opacity-100 mix-blend-overlay sm:w-[1200px] sm:left-[65%] sm:opacity-30 lg:w-[1400px] lg:left-[80%] lg:opacity-35"
       alt=""
     />
 
@@ -64,7 +64,7 @@ onUnmounted(() => {
       >
         <a
           href="#tenders"
-          class="text-sm font-medium transition-colors"
+          class="text-[16px] mr-8 font-medium transition-colors hover:text-[#0000]"
           :class="
             isOverHero ? 'text-white/90 hover:text-white' : 'text-slate-700 hover:text-slate-900'
           "
@@ -73,7 +73,7 @@ onUnmounted(() => {
         </a>
         <a
           href="#about"
-          class="text-sm font-medium transition-colors nav-link"
+          class="text-[16px] mr-8 font-medium transition-colors nav-link hover:text-[#0000]"
           :class="
             isOverHero ? 'text-white/90 hover:text-white' : 'text-slate-700 hover:text-slate-900'
           "
@@ -82,7 +82,7 @@ onUnmounted(() => {
         </a>
         <a
           href="#how"
-          class="text-sm font-medium transition-colors"
+          class="text-[16px] mr-8 font-medium transition-colors hover:text-[#0000]"
           :class="
             isOverHero ? 'text-white/90 hover:text-white' : 'text-slate-700 hover:text-slate-900'
           "
@@ -91,7 +91,7 @@ onUnmounted(() => {
         </a>
         <a
           href="#form"
-          class="text-sm font-medium transition-colors"
+          class="text-[16px] mr-8font-medium transition-colors hover:text-[#0000]"
           :class="
             isOverHero ? 'text-white/90 hover:text-white' : 'text-slate-700 hover:text-slate-900'
           "
@@ -101,20 +101,22 @@ onUnmounted(() => {
       </nav>
     </header>
 
-    <div class="container-app relative min-h-[677px] flex flex-col items-center pt-32 sm:pt-36">
-      <div class="mx-auto max-w-[1080px] text-center">
-        <h1 class="text-3xl font-semibold leading-tight sm:text-6xl lg:text-6xl">
+    <div class="container-app relative min-h-[677px] flex flex-col items-center pt-8 sm:pt-36">
+      <div class="mx-auto mt-[10px] max-w-[1080px] text-center">
+        <h1
+          class="text-4xl font-semibold leading-tight sm:text-[48px] lg:text-[60px] lg:max-w-[755px]"
+        >
           Tenderbot.kz - тендеры и госзакупки Казахстана в одном окне
         </h1>
 
-        <p class="mx-auto text-[20px] mt-8 max-w-[640px] text-white/85">
+        <p class="mx-auto text-[24px] mt-8 max-w-[640px] text-white/85">
           Находите подходящие тендеры без ручного поиска.
         </p>
 
         <div class="mx-auto mt-8 flex justify-center">
           <button
             type="button"
-            class="mx-auto inline-flex min-w-[312px] h-[64px] items-center justify-center rounded-full bg-white px-6 py-2 text-[20px] font-bold text-slate-900 shadow-lg shadow-black/10 transition hover:-translate-y-[1px] hover:bg-white/95 active:translate-y-0"
+            class="mx-auto inline-flex min-w-[312px] h-[80px] items-center justify-center rounded-full bg-white px-6 py-2 text-[24px] font-bold text-slate-900 shadow-lg shadow-black/10 transition hover:-translate-y-[1px] hover:bg-white/95 active:translate-y-0"
             @click="emit('open-lead')"
           >
             Узнать больше

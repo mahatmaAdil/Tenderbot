@@ -30,7 +30,7 @@ const features = [
 
 <template>
   <section class="-mt-10">
-    <div class="container-app py-14 sm:py-18">
+    <div class="container-app py-12 sm:py-18">
       <div class="mt-10 grid gap-4 sm:mt-12 sm:grid-cols-2">
         <div v-for="f in features" :key="f.title" class="rounded-2xl border bg-white p-6">
           <div

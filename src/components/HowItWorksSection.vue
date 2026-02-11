@@ -37,12 +37,12 @@ const steps = [
             </div>
 
             <div>
-              <div class="text-base font-semibold text-slate-900">
+              <div class="text-base font-semibold text-slate-900 mb-2">
                 {{ s.title }}
               </div>
 
               <p
-                class="text-sm leading-relaxed text-slate-500 font-Inter"
+                class="text-sm leading-tight text-slate-500 font-Inter"
                 :class="{ 'step-text-fix': s.n === '01' }"
               >
                 {{ s.text }}

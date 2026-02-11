@@ -131,7 +131,7 @@ async function submit() {
     >
       <button
         type="button"
-        class="absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-xl text-slate-500 hover:bg-slate-100"
+        class="absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-xl text-#078EE6 hover:bg-slate-100"
         @click="close"
         aria-label="Закрыть"
       >

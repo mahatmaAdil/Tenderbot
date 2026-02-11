@@ -118,9 +118,9 @@ async function onSubmit() {
         </div>
       </div>
 
-      <div id="form" class="mt-10 rounded-3xl bg-[#FFF] p-5 sm:p-10">
+      <div id="form" class="mt-16 rounded-3xl bg-[#FFF] p-5 sm:p-10">
         <div class="grid gap-10 lg:grid-cols-2 lg:items-center">
-          <div>
+          <div class="mx-auto max-[600px] p-6 sm:p-10">
             <img
               :src="tenderbotIcon"
               alt="Tenderbot"
@@ -128,8 +128,8 @@ async function onSubmit() {
               draggable="false"
             />
 
-            <h3 class="mt-8 text-3xl font-semibold leading-tight text-slate-900 sm:text-[45px]">
-              Всё еще думаете?<br />
+            <h3 class="mt-8 text-3xl font-semibold leading-tight text-slate-900 sm:text-[36px]">
+              Всё еще думаете? <br />
               Просто попробуйте
             </h3>
 

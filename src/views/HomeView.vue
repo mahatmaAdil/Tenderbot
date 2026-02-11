@@ -17,7 +17,7 @@ const leadOpen = ref(false)
 <template>
   <HeroSection @open-lead="leadOpen = true" />
 
-  <PlatformsSection />
+  <PlatformsSection @open-lead="leadOpen = true" />
   <FeaturesSection />
   <TeamCtaSection @open-lead="leadOpen = true" />
   <HowItWorksSection @open-lead="leadOpen = true" />

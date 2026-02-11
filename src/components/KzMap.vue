@@ -6,7 +6,7 @@ import { regions } from '@/data/regions'
 const props = defineProps({
   modelValue: { type: String, default: '' },
 })
-const emit = defineEmits(['update:modelValue', 'select'])
+const emit = defineEmits(['update:modelValue', 'select', 'open-lead'])
 
 const host = ref(null)
 const wrap = ref(null)
@@ -204,9 +204,16 @@ function addCityHitCircles(paths) {
     circle.setAttribute('cy', cy)
     circle.setAttribute('r', rr)
     circle.setAttribute('fill', '#fff')
-    circle.setAttribute('stroke', '#078ee6')
-    circle.setAttribute('stroke-width', '2')
     circle.style.cursor = 'pointer'
+    circle.addEventListener('pointerenter', () => {
+      circle.setAttribute('stroke-width', '2')
+      circle.setAttribute('fill', '#c0d8ff')
+    })
+
+    circle.addEventListener('pointerleave', () => {
+      circle.setAttribute('stroke-width', '0')
+      circle.setAttribute('fill', '#fff')
+    })
 
     hitLayer.appendChild(circle)
 
@@ -278,12 +285,6 @@ onMounted(async () => {
   addRegionLabels(paths)
   applyActiveClass()
 })
-function onWatchClick() {
-  const url = tooltip.value.region?.url
-  if (!url) return
-
-  window.open(url, '_blank', 'noopener')
-}
 
 onUnmounted(() => {
   window.removeEventListener('resize', updateIsMobile)
@@ -292,15 +293,16 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div ref="wrap" class="relative overflow-hidden">
+  <div ref="wrap" class="relative overflow-visible">
     <div class="flex flex-col">
       <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between sm:gap-10">
         <div class="flex flex-col gap-1 sm:max-w-[350px]">
           <h2 class="max-w-[220px] text-2xl font-semibold leading-snug text-slate-900">
-            Карта тендеров в Казахстане
+            Карта тендеров<br />
+            в Казахстане
           </h2>
 
-          <p class="w-full text-sm text-slate-400 sm:max-w-[230px]">
+          <p class="w-full text-sm text-slate-500 sm:max-w-[230px]">
             Наведите курсор мыши на область, чтобы узнать о проводимых тендерах
           </p>
 
@@ -312,7 +314,7 @@ onUnmounted(() => {
 
         <div
           ref="host"
-          class="w-[110%] -ml-[5%] sm:-ml-[25%] sm:w-[110%] sm:flex-1"
+          class="w-[110%] -ml-[5%] sm:-ml-[25%] sm:w-[130%] sm:flex-1"
           v-html="mapSvgRaw"
         ></div>
       </div>
@@ -335,9 +337,8 @@ onUnmounted(() => {
 
         <button
           type="button"
-          class="mt-3 inline-flex w-full items-center justify-center rounded-lg bg-[#078EE6] px-3 py-2 text-xs font-semibold text-white transition hover:bg-blue-700 disabled:bg-slate-200 disabled:text-slate-500 disabled:cursor-not-allowed"
-          :disabled="!tooltip.region?.url"
-          @click="onWatchClick"
+          class="mt-3 inline-flex w-full items-center justify-center rounded-lg bg-[#078EE6] px-3 py-2 text-xs font-semibold text-white transition hover:bg-blue-700"
+          @click.stop="emit('open-lead')"
         >
           Смотреть
         </button>
@@ -362,8 +363,7 @@ onUnmounted(() => {
       <button
         type="button"
         class="mt-3 inline-flex w-full items-center justify-center rounded-lg bg-blue-600 px-3 py-2 text-xs font-semibold text-white transition hover:bg-blue-700 disabled:bg-slate-200 disabled:text-slate-500 disabled:cursor-not-allowed"
-        :disabled="!tooltip.region?.url"
-        @click="onWatchClick"
+        @click.stop="emit('open-lead')"
       >
         Смотреть
       </button>
