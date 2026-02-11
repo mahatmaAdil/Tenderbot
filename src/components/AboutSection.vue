@@ -84,64 +84,74 @@ async function onSubmit() {
 
 <template>
   <section id="about">
-    <div class="container-app py-14 sm:py-18">
-      <h2 class="text-center text-2xl font-bold text-slate-900 sm:text-3xl">
+    <div class="container-app py-14 sm:py-18 mx-auto px-4 sm:px-6">
+      <h2 class="text-center text-2xl font-semibold text-slate-900 sm:text-3xl">
         Tenderbot — это не только поиск закупок
       </h2>
 
       <div class="mt-10 grid gap-6 sm:grid-cols-3">
-        <div class="rounded-2xl border border-slate-200 p-6">
+        <div class="rounded-2xl border border-slate-200 p-4">
           <div class="mb-4"><img :src="icon1" alt="" class="h-8 w-8" /></div>
-          <div class="text-sm font-bold text-slate-900">Обучаем тендерам онлайн и оффлайн</div>
+          <div class="text-base font-semibold text-slate-900">
+            Обучаем тендерам онлайн и оффлайн
+          </div>
           <p class="mt-2 text-sm text-slate-600">70% практических кейсов от реальных закупщиков.</p>
         </div>
 
-        <div class="rounded-2xl border border-slate-200 p-6">
+        <div class="rounded-2xl border border-slate-200 p-4">
           <div class="mb-4"><img :src="icon2" alt="" class="h-8 w-8" /></div>
-          <div class="text-sm font-bold text-slate-900">Сопровождаем в участии</div>
+          <div class="text-base font-bold text-slate-900">Сопровождаем в участии</div>
           <p class="mt-2 text-sm text-slate-600">
             Гарантируем 100% подачу на тендер, обеспечиваем юридическую и финансовую поддержку.
           </p>
         </div>
 
-        <div class="rounded-2xl border border-slate-200 p-6">
+        <div class="rounded-2xl border border-slate-200 p-4">
           <div class="mb-4"><img :src="icon3" alt="" class="h-8 w-8" /></div>
-          <div class="text-sm font-bold text-slate-900">Предоставляем аналитику госзакупок</div>
+          <div class="text-base font-bold text-slate-900 whitespace-nowrap">
+            Предоставляем аналитику госзакупок
+          </div>
           <p class="mt-2 text-sm text-slate-600">
-            Полная аналитика: данные по заказчикам, суммам и направлениям на 2026 год.
+            Предоставляем полную аналитику госзакупок. Данные по заказчикам, суммам и направлениям
+            на 2026 год.
           </p>
         </div>
       </div>
 
-      <div class="mt-10 rounded-3xl bg-white p-6 sm:p-10">
-        <div class="grid gap-4 lg:grid-cols-2 lg:items-center">
+      <div id="form" class="mt-10 rounded-3xl bg-[#FFF] p-5 sm:p-10">
+        <div class="grid gap-10 lg:grid-cols-2 lg:items-center">
           <div>
             <img
               :src="tenderbotIcon"
               alt="Tenderbot"
-              class="pt-0 sm:pt-10 mt-4 translate-y-0 sm:-mt-10 sm:-translate-y-3 w-auto max-w-full select-none"
+              class="h-8 w-auto select-none"
               draggable="false"
             />
-            <div class="text-2xl max-w-[400px] font-semibold text-slate-900 sm:text-4xl">
-              Всё ещё думаете?<br />Просто <br />попробуйте
-            </div>
-            <p class="mt-4 max-w-[400px] text-[15px] leading-relaxed text-slate-600">
-              Если сомневаетесь или что-то не поняли - смело оставляйте свои контакты. Наш менеджер
+
+            <h3 class="mt-8 text-3xl font-semibold leading-tight text-slate-900 sm:text-[45px]">
+              Всё еще думаете?<br />
+              Просто попробуйте
+            </h3>
+
+            <p class="mt-6 text-base sm:text-xl leading-tight text-slate-900">
+              Если сомневаетесь или что-то не поняли, смело оставляйте свои контакты — наш менеджер
               перезвонит и поможет начать работать в сервисе.
             </p>
           </div>
 
-          <div id="form" class="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6">
-            <form class="grid gap-3" @submit.prevent="onSubmit">
+          <div
+            class="mx-auto w-full max-w-[600px] rounded-3xl border border-slate-200 bg-white p-6 sm:p-10"
+          >
+            <form class="grid gap-6" @submit.prevent="onSubmit">
               <label class="relative block">
                 <img
                   src="@/assets/icons/icon5.svg"
                   alt=""
-                  class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 opacity-70"
+                  class="pointer-events-none absolute left-0 top-1/2 h-4 w-4 -translate-y-1/2 opacity-60"
                 />
                 <input
                   v-model="name"
-                  class="h-11 w-full rounded-xl border border-slate-200 pl-10 pr-3 text-sm outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-100"
+                  class="h-12 w-full border-b border-slate-200 bg-transparent pl-7 pr-2 text-sm text-slate-900 outline-none placeholder:text-slate-400 focus:border-blue-500"
                   placeholder="Имя"
                   required
                   :disabled="loading"
@@ -152,14 +162,14 @@ async function onSubmit() {
                 <img
                   src="@/assets/icons/icon6.svg"
                   alt=""
-                  class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 opacity-70"
+                  class="pointer-events-none absolute left-0 top-1/2 h-4 w-4 -translate-y-1/2 opacity-60"
                 />
                 <input
                   v-model="phone"
                   type="tel"
+                  class="h-12 w-full border-b border-slate-200 bg-transparent pl-7 pr-2 text-sm text-slate-900 outline-none placeholder:text-slate-400 focus:border-blue-500"
                   placeholder="Телефон"
                   required
-                  class="h-11 w-full rounded-xl border border-slate-200 pl-10 pr-3 text-sm outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-100"
                   :disabled="loading"
                 />
               </label>
@@ -174,13 +184,13 @@ async function onSubmit() {
 
               <button
                 type="submit"
-                class="mt-2 h-11 rounded-xl bg-[#078EE6] text-sm font-semibold text-white transition hover:bg-blue-400 disabled:opacity-60"
+                class="mx-auto mt-2 h-10 w-[240px] rounded-lg bg-[#078EE6] text-sm font-semibold text-white transition hover:bg-blue-500 disabled:opacity-60"
                 :disabled="loading"
               >
                 {{ loading ? 'Отправляю…' : 'Отправить заявку' }}
               </button>
 
-              <p class="text-[11px] leading-snug text-slate-500">
+              <p class="mx-auto max-w-[280px] text-center text-[10px] leading-snug text-slate-400">
                 Заполняя форму, вы подтверждаете согласие на обработку персональных данных.
               </p>
             </form>

@@ -3,23 +3,27 @@ const emit = defineEmits(['open-lead'])
 </script>
 
 <template>
-  <section class="">
+  <section>
     <div class="container-app">
-      <div
-        class="flex flex-col items-center justify-between gap-4 rounded-2xl px-6 py-5 text-white sm:flex-row bg-[#078EE6]"
-      >
-        <p class="max-w-[900px] text-sm font-medium">
-          На вас работает команда закупщиков, отдел технической поддержки, юристов, которые сделают
-          участие в тендерах и закупках гораздо легче, надёжнее и быстрее!
-        </p>
+      <div class="rounded-2xl bg-[#078EE6] px-6 py-5 text-white sm:px-10 sm:py-6">
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-8">
+          <div class="min-w-0">
+            <h3 class="text-base font-semibold leading-snug sm:text-lg">
+              Участвуйте в закупках с поддержкой экспертов
+            </h3>
+            <p class="mt-2 text-sm font-medium text-white/80">
+              Профессиональная помощь на всех этапах
+            </p>
+          </div>
 
-        <button
-          type="button"
-          class="whitespace-nowrap rounded-full bg-white px-6 py-2 text-sm font-semibold text-slate-900 transition hover:bg-white/95"
-          @click="emit('open-lead')"
-        >
-          Бесплатная консультация
-        </button>
+          <button
+            type="button"
+            class="w-full rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-900 shadow-sm transition hover:bg-white/95 sm:w-auto sm:px-10 sm:py-4"
+            @click="emit('open-lead')"
+          >
+            Бесплатная консультация
+          </button>
+        </div>
       </div>
     </div>
   </section>

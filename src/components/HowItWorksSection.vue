@@ -13,7 +13,7 @@ const steps = [
   {
     n: '03',
     title: 'Вы получаете результат',
-    text: 'Подходящие тендеры приходят на email и в ваш личный кабинет каждые полчаса.',
+    text: 'Подходящие тендеры приходят на email и в ваш личный кабинет.',
   },
 ]
 </script>
@@ -42,7 +42,7 @@ const steps = [
               </div>
 
               <p
-                class="text-sm leading-relaxed text-slate-500"
+                class="text-sm leading-relaxed text-slate-500 font-Inter"
                 :class="{ 'step-text-fix': s.n === '01' }"
               >
                 {{ s.text }}

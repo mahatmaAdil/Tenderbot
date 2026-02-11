@@ -4,9 +4,9 @@ const emit = defineEmits(['open-lead'])
 </script>
 
 <template>
-  <footer class="">
+  <footer class="bg-[#FAF9F9]">
     <div
-      class="container-app mt-8 flex flex-col items-center gap-4 border-t border-slate-200 py-10 pt-6 text-center sm:flex-row sm:items-center sm:justify-between sm:text-left"
+      class="container-app mt-8 flex flex-col items-center gap-4 border-slate-200 py-10 pt-6 text-center sm:flex-row sm:items-center sm:justify-between sm:text-left"
     >
       <img src="../assets/icons/Tenderbot.svg" />
       <div class="text-xs text-slate-500">
@@ -18,11 +18,16 @@ const emit = defineEmits(['open-lead'])
         <li class="flex flex-col gap-1">
           <span class="font-bold text-black">+7 747 094 42 15</span>
           <a
-            class="inline-flex items-center gap-2 font-semibold text-blue-600 hover:text-blue-700 transition"
+            class="inline-flex items-center gap-2 font-semibold text-[#078EE6] hover:text-blue-700 transition"
             href="#"
             @click.prevent="emit('open-lead')"
           >
-            <img src="@/assets/icons/call.svg" alt="" class="h-4 w-4" aria-hidden="true" />
+            <img
+              src="@/assets/icons/call.svg"
+              alt=""
+              class="h-4 w-4 text-[#078EE6]"
+              aria-hidden="true"
+            />
             Заказать звонок
           </a>
         </li>

@@ -1,5 +1,6 @@
 <script setup>
-import bgShapeUrl from '@/assets/bg-shape.svg'
+import bgShapeUrl from '@/assets/bg-shape3.svg'
+import bgShapeUrl2 from '@/assets/bg-shape2.svg'
 import { ref, onMounted, onUnmounted } from 'vue'
 const emit = defineEmits(['open-lead'])
 
@@ -35,27 +36,19 @@ onUnmounted(() => {
       style="background: linear-gradient(135deg, #00a6f4 0%, #0084d1 45%, #1447e6 100%)"
     />
 
-    <div
+    <img
+      :src="bgShapeUrl"
       aria-hidden="true"
-      class="pointer-events-none absolute inset-0 opacity-[0.95] mix-blend-overlay"
-      :style="{
-        backgroundImage: `url(${bgShapeUrl})`,
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }"
-    ></div>
-    <div
+      class="pointer-events-none absolute left-1/2 top-1/2 w-[900px] max-w-none -translate-x-1/2 -translate-y-1/2 opacity-30 mix-blend-overlay sm:w-[1400px] sm:left-[20%] sm:opacity-35"
+      alt=""
+    />
+
+    <img
+      :src="bgShapeUrl"
       aria-hidden="true"
-      class="pointer-events-none absolute inset-0 opacity-[0.95] mix-blend-overlay"
-      :style="{
-        backgroundImage: `url(${bgShapeUrl})`,
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        transform: 'scaleX(-1)',
-      }"
-    ></div>
+      class="pointer-events-none absolute left-1/2 top-1/2 w-[900px] max-w-none -translate-x-1/2 -translate-y-1/2 rotate-180 opacity-85 mix-blend-overlay sm:w-[1200px] sm:left-[65%] sm:opacity-30 lg:w-[1400px] lg:left-[80%] lg:opacity-35"
+      alt=""
+    />
 
     <div
       aria-hidden="true"
@@ -67,7 +60,7 @@ onUnmounted(() => {
       :class="isOverHero ? 'text-white' : 'text-slate-900'"
     >
       <nav
-        class="mx-auto flex items-center justify-center gap-6 sm:gap-8 lg:gap-12 rounded-full bg-white/15 px-5 py-2 sm:px-8 sm:py-3 lg:px-12 lg:py-4 backdrop-blur-md ring-1 ring-white/20 transition-colors"
+        class="mx-auto flex items-center justify-center gap-6 sm:gap-8 lg:gap-12 rounded-full bg-white/15 px-5 py-2 sm:px-8 sm:py-3 lg:px-12 lg:py-4 backdrop-blur-md ring-1 ring-white/20 transition-colors min-w-[1072px]"
       >
         <a
           href="#tenders"

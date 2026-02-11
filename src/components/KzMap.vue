@@ -203,8 +203,8 @@ function addCityHitCircles(paths) {
     circle.setAttribute('cx', cx)
     circle.setAttribute('cy', cy)
     circle.setAttribute('r', rr)
-    circle.setAttribute('fill', 'rgba(59,130,246,0.15)')
-    circle.setAttribute('stroke', 'rgba(59,130,246,0.65)')
+    circle.setAttribute('fill', '#fff')
+    circle.setAttribute('stroke', '#078ee6')
     circle.setAttribute('stroke-width', '2')
     circle.style.cursor = 'pointer'
 
@@ -232,9 +232,14 @@ function addRegionLabels(paths) {
     text.setAttribute('text-anchor', 'middle')
     text.setAttribute('dominant-baseline', 'middle')
     text.setAttribute('pointer-events', 'none')
-    text.setAttribute('fill', '#0f172a')
-    text.setAttribute('font-size', '13')
-    text.setAttribute('font-weight', '700')
+    text.setAttribute('fill', 'black')
+    text.setAttribute('fill-opacity', '0.9')
+    text.setAttribute('paint-order', 'stroke fill')
+    text.setAttribute('stroke-linejoin', 'round')
+    text.setAttribute('font-size', '15')
+    text.setAttribute('line-height', '20')
+    text.setAttribute('font-weight', '600')
+    text.setAttribute('font-family', 'Inter, system-ui, sans-serif')
     text.textContent = label
 
     svgEl.appendChild(text)
@@ -287,7 +292,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div ref="wrap" class="relative">
+  <div ref="wrap" class="relative overflow-hidden">
     <div class="flex flex-col">
       <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between sm:gap-10">
         <div class="flex flex-col gap-1 sm:max-w-[350px]">
@@ -299,16 +304,17 @@ onUnmounted(() => {
             Наведите курсор мыши на область, чтобы узнать о проводимых тендерах
           </p>
 
-          <div
-            v-if="activeId"
-            class="rounded-xl bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700"
-          >
+          <div v-if="activeId" class="rounded-xl bg-blue-50 px-3 py-1 text-xs font-semibold">
             Выбрано:
             {{ regionMap.get(activeId)?.name || activeId }}
           </div>
         </div>
 
-        <div ref="host" class="w-full w-[120%] sm:-ml-[30%] sm:flex-1" v-html="mapSvgRaw"></div>
+        <div
+          ref="host"
+          class="w-[110%] -ml-[5%] sm:-ml-[25%] sm:w-[110%] sm:flex-1"
+          v-html="mapSvgRaw"
+        ></div>
       </div>
 
       <div
@@ -319,7 +325,7 @@ onUnmounted(() => {
         @pointerdown.stop
         @click.stop
       >
-        <div class="font-regular text-slate-900">
+        <div class="font-inter text-base">
           {{ tooltip.region?.name }}
         </div>
 
@@ -372,12 +378,13 @@ onUnmounted(() => {
   height: auto;
   pointer-events: auto;
   user-select: none;
+  opacity: 1;
 }
 
 :deep(.region) {
   pointer-events: all;
-  fill: #e5e7eb;
-  stroke: rgba(15, 23, 42, 0.25);
+  fill: #ffffff;
+  stroke: #078ee6;
   stroke-width: 1;
   cursor: pointer;
   transition:
@@ -386,10 +393,10 @@ onUnmounted(() => {
 }
 
 :deep(.region:hover) {
-  fill: #93c5fd;
+  fill: #c0d8ff;
 }
 
 :deep(.region.is-active) {
-  fill: #93c5fd;
+  fill: #c0d8ff;
 }
 </style>

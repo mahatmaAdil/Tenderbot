@@ -8,8 +8,7 @@ import logo3 from '@/assets/platforms/logo3.svg'
 
 <template>
   <section id="tenders" class="relative z-20 scroll-mt-28">
-    <div class="container-app pb-5 sm:pb-10">
-      <!-- Карточка выезжает в Hero -->
+    <div class="container-app pb-5 sm:pb-10 -mt-[120px] sm:-mt-12 relative z-30">
       <div class="relative rounded-2xl bg-slate-50 px-6 py-5">
         <div class="flex flex-col h-auto gap-4 sm:flex-row sm:items-center sm:justify-between">
           <p class="max-w-[330px] text-sm text-slate-600">

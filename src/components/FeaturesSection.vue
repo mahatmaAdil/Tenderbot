@@ -39,11 +39,11 @@ const features = [
             <img :src="f.icon" alt="" class="h-7 w-7" />
           </div>
 
-          <h3 class="text-base font-bold text-slate-900">
+          <h3 class="text-xl sm:text-2xl font-semibold text-slate-900">
             {{ f.title }}
           </h3>
 
-          <p class="mt-2 text-sm text-slate-600">
+          <p class="mt-2 text-sm sm:text-base text-slate-600">
             {{ f.text }}
           </p>
         </div>
