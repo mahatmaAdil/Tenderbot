@@ -59,6 +59,7 @@ async function submit() {
   const payload = {
     name: String(name.value || '').trim(),
     phone: normalizePhone(phone.value),
+    source_id: null,
     utm_source: utmSource.value,
   }
 
@@ -70,6 +71,13 @@ async function submit() {
   if (!payload.phone) {
     error.value = 'Введите телефон'
     return
+  }
+  if (window.location.host === 'zakup.com.kz') {
+    payload.source_id = 1
+  }
+
+  if (window.location.host === 'goszakup.com.kz') {
+    payload.source_id = 2
   }
 
   loading.value = true
