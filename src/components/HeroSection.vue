@@ -66,7 +66,7 @@ onUnmounted(() => {
           href="#tenders"
           class="text-[16px] mr-8 font-medium transition-colors hover:text-[#0000]"
           :class="
-            isOverHero ? 'text-white/90 hover:text-white' : 'text-slate-700 hover:text-slate-900'
+            isOverHero ? 'text-white/90 hover:text-black' : 'text-slate-700 hover:text-slate-900'
           "
         >
           Актуальные тендеры
@@ -75,7 +75,7 @@ onUnmounted(() => {
           href="#about"
           class="text-[16px] mr-8 font-medium transition-colors nav-link hover:text-[#0000]"
           :class="
-            isOverHero ? 'text-white/90 hover:text-white' : 'text-slate-700 hover:text-slate-900'
+            isOverHero ? 'text-white/90 hover:text-black' : 'text-slate-700 hover:text-slate-900'
           "
         >
           О сервисе
@@ -84,16 +84,16 @@ onUnmounted(() => {
           href="#how"
           class="text-[16px] mr-8 font-medium transition-colors hover:text-[#0000]"
           :class="
-            isOverHero ? 'text-white/90 hover:text-white' : 'text-slate-700 hover:text-slate-900'
+            isOverHero ? 'text-white/90 hover:text-black' : 'text-slate-700 hover:text-slate-900'
           "
         >
           Как это работает
         </a>
         <a
           href="#form"
-          class="text-[16px] mr-8font-medium transition-colors hover:text-[#0000]"
+          class="text-[16px] mr-8 font-medium transition-colors hover:text-[#0000]"
           :class="
-            isOverHero ? 'text-white/90 hover:text-white' : 'text-slate-700 hover:text-slate-900'
+            isOverHero ? 'text-white/90 hover:text-black' : 'text-slate-700 hover:text-slate-900'
           "
         >
           Оставить заявку
