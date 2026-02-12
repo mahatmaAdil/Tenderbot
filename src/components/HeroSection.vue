@@ -39,14 +39,14 @@ onUnmounted(() => {
     <img
       :src="bgShapeUrl"
       aria-hidden="true"
-      class="pointer-events-none absolute left-1/2 top-1/2 hidden max-w-none -translate-x-1/2 -translate-y-1/2 opacity-100 mix-blend-overlay sm:w-[1400px] sm:left-[20%] sm:opacity-35"
+      class="pointer-events-none absolute left-1/2 top-1/2 hidden sm:block max-w-none -translate-x-1/2 -translate-y-1/2 opacity-100 mix-blend-overlay sm:w-[1400px] sm:left-[20%] sm:opacity-95"
       alt=""
     />
 
     <img
       :src="bgShapeUrl"
       aria-hidden="true"
-      class="pointer-events-none absolute left-1/2 top-1/2 w-[900px] max-w-none -translate-x-1/2 -translate-y-1/2 rotate-180 opacity-100 mix-blend-overlay sm:w-[1200px] sm:left-[65%] sm:opacity-30 lg:w-[1400px] lg:left-[80%] lg:opacity-35"
+      class="pointer-events-none absolute left-1/2 top-1/2 w-[900px] max-w-none -translate-x-1/2 -translate-y-1/2 rotate-180 opacity-99 mix-blend-overlay sm:w-[1200px] sm:left-[65%] sm:opacity-30 lg:w-[1400px] lg:left-[80%] lg:opacity-35"
       alt=""
     />
 
