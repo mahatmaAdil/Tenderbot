@@ -22,7 +22,7 @@ onMounted(() => {
 
   if (hero.value) observer.observe(hero.value)
 })
-
+watch(category, (v) => console.log('category:', v))
 onUnmounted(() => {
   if (observer && hero.value) observer.unobserve(hero.value)
 })
@@ -115,6 +115,7 @@ onUnmounted(() => {
 
         <div class="mx-auto mt-8 flex justify-center">
           <button
+            id="headerBtn"
             type="button"
             class="mx-auto inline-flex min-w-[312px] h-[80px] items-center justify-center rounded-full bg-white px-6 py-2 text-[24px] font-bold text-slate-900 shadow-lg shadow-black/10 transition hover:-translate-y-[1px] hover:bg-white/95 active:translate-y-0"
             @click="emit('open-lead')"

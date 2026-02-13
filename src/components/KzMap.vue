@@ -336,6 +336,7 @@ onUnmounted(() => {
         </div>
 
         <button
+          id="tooltipBtn"
           type="button"
           class="mt-3 inline-flex w-full items-center justify-center rounded-lg bg-[#078EE6] px-3 py-2 text-xs font-semibold text-white transition hover:bg-blue-700"
           @click.stop="emit('open-lead')"
@@ -361,6 +362,7 @@ onUnmounted(() => {
       </div>
 
       <button
+        id="mobTooltipBtn"
         type="button"
         class="mt-3 inline-flex w-full items-center justify-center rounded-lg bg-blue-600 px-3 py-2 text-xs font-semibold text-white transition hover:bg-blue-700 disabled:bg-slate-200 disabled:text-slate-500 disabled:cursor-not-allowed"
         @click.stop="emit('open-lead')"
