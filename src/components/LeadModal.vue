@@ -130,6 +130,7 @@ async function submit() {
       class="relative mx-auto mt-16 w-[min(560px,calc(100%-32px))] rounded-2xl bg-white p-5 shadow-2xl"
     >
       <button
+        id="modalBtn"
         type="button"
         class="absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-xl text-#078EE6 hover:bg-slate-100"
         @click="close"
@@ -169,7 +170,7 @@ async function submit() {
           {{ error }}
         </div>
 
-        <button class="btn-primary mt-1" type="submit" :disabled="loading">
+        <button class="btn-primary mt-1" id="modalBtn" type="submit" :disabled="loading">
           {{ loading ? 'Отправляю…' : 'Отправить' }}
         </button>
 

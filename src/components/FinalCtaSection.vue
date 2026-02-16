@@ -25,6 +25,7 @@ const emit = defineEmits(['open-lead'])
 
         <div class="mt-8 flex justify-center">
           <button
+            id="finalBtn"
             type="button"
             class="inline-flex min-w-[312px] h-[80px] items-center justify-center rounded-full bg-white px-8 text-[20px] font-bold text-slate-900 shadow-lg shadow-black/10 transition hover:-translate-y-[1px] hover:bg-white/95 active:translate-y-0"
             @click="emit('open-lead')"
