@@ -11,7 +11,7 @@ export const regions = [
     id: 'KZ11',
     xml_id: 110000000,
     name: 'Акмолинская область',
-    mapName: 'Акмола',
+    mapName: '',
     url: baseURL + '/tendery-akmolinskaya-oblast?from=regions',
     labelDx: 0,
     labelDy: -140,
