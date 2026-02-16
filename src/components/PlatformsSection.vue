@@ -51,7 +51,7 @@ const emit = defineEmits(['open-lead'])
         <KzMap
           @open-lead="
             () => {
-              emit('open-lead')
+              emit('open-lead', 'submit_form_from_tooltip')
             }
           "
         />

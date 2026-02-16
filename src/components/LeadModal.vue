@@ -3,6 +3,7 @@ import { computed, onBeforeUnmount, ref, watch } from 'vue'
 
 const props = defineProps({
   open: { type: Boolean, default: false },
+  goalId: { type: String, default: 'submit_form_learn_more' },
 })
 const emit = defineEmits(['close', 'success'])
 
@@ -13,6 +14,7 @@ const phone = ref('')
 const loading = ref(false)
 const error = ref('')
 const sent = ref(false)
+const goalFired = ref(false)
 
 const utmSource = computed(() => {
   try {
@@ -35,6 +37,7 @@ watch(
       document.body.style.overflow = 'hidden'
       error.value = ''
       sent.value = false
+      goalFired.value = false
       loading.value = false
     } else {
       document.removeEventListener('keydown', onKey)
@@ -53,9 +56,9 @@ function normalizePhone(p) {
 }
 
 async function submit() {
+  if (loading.value) return
   error.value = ''
   sent.value = false
-
   const payload = {
     name: String(name.value || '').trim(),
     phone: normalizePhone(phone.value),
@@ -108,6 +111,15 @@ async function submit() {
       throw new Error(msg)
     }
 
+    if (!goalFired.value && typeof window !== 'undefined' && typeof window.ym === 'function') {
+      try {
+        console.log('GOAL FIRED:', props.goalId)
+        window.ym(106181212, 'reachGoal', props.goalId)
+        console.log('METRIKA CONFIRMED:', props.goalId)
+        goalFired.value = true
+      } catch {}
+    }
+
     sent.value = true
     emit('success', data)
 
@@ -130,7 +142,7 @@ async function submit() {
       class="relative mx-auto mt-16 w-[min(560px,calc(100%-32px))] rounded-2xl bg-white p-5 shadow-2xl"
     >
       <button
-        id="modalBtn"
+        id="modalCloseBtn"
         type="button"
         class="absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-xl text-#078EE6 hover:bg-slate-100"
         @click="close"
@@ -170,7 +182,7 @@ async function submit() {
           {{ error }}
         </div>
 
-        <button class="btn-primary mt-1" id="modalBtn" type="submit" :disabled="loading">
+        <button class="btn-primary mt-1" id="modalSubmitBtn" type="submit" :disabled="loading">
           {{ loading ? 'Отправляю…' : 'Отправить' }}
         </button>
 

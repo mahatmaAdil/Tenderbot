@@ -5,6 +5,9 @@ import icon1 from '@/assets/icons/icon1.svg'
 import icon2 from '@/assets/icons/icon2.svg'
 import icon3 from '@/assets/icons/icon3.svg'
 
+const METRIKA_ID = 106181212
+const GOAL_ID = 'submit_form_send_a_request'
+
 const name = ref('')
 const phone = ref('')
 
@@ -68,6 +71,10 @@ async function onSubmit() {
     if (!res.ok) {
       const msg = (data && (data.message || data.error)) || `Ошибка отправки (HTTP ${res.status})`
       throw new Error(msg)
+    }
+    if (typeof window !== 'undefined' && typeof window.ym === 'function') {
+      console.log('GOAL FIRED:', GOAL_ID)
+      window.ym(METRIKA_ID, 'reachGoal', GOAL_ID)
     }
 
     success.value = true

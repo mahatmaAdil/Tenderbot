@@ -12,18 +12,24 @@ import TeamCtaSection from '../components/TeamCtaSection.vue'
 import FooterSection from '../components/FooterSection.vue'
 
 const leadOpen = ref(false)
+const leadGoal = ref('submit_form_learn_more')
+
+function openLead(goalId = 'submit_form_learn_more') {
+  leadGoal.value = goalId
+  leadOpen.value = true
+}
 </script>
 
 <template>
-  <HeroSection @open-lead="leadOpen = true" />
+  <HeroSection @open-lead="() => openLead('submit_form_learn_more')" />
 
-  <PlatformsSection @open-lead="leadOpen = true" />
+  <PlatformsSection @open-lead="() => openLead('submit_form_from_tooltip')" />
   <FeaturesSection />
-  <TeamCtaSection @open-lead="leadOpen = true" />
-  <HowItWorksSection @open-lead="leadOpen = true" />
-  <FinalCtaSection @open-lead="leadOpen = true" />
-  <AboutSection @open-lead="leadOpen = true" />
-  <FooterSection @open-lead="leadOpen = true" />
+  <TeamCtaSection @open-lead="() => openLead('submit_form_free_consultation')" />
+  <HowItWorksSection />
+  <FinalCtaSection @open-lead="() => openLead('submit_form_want_see')" />
+  <AboutSection />
+  <FooterSection @open-lead="() => openLead('submit_form_free_consultation')" />
 
-  <LeadModal :open="leadOpen" @close="leadOpen = false" />
+  <LeadModal :open="leadOpen" :goal-id="leadGoal" @close="leadOpen = false" />
 </template>
