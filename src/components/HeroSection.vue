@@ -22,10 +22,6 @@ onMounted(() => {
 
   if (hero.value) observer.observe(hero.value)
 })
-watch(category, (v) => console.log('category:', v))
-onUnmounted(() => {
-  if (observer && hero.value) observer.unobserve(hero.value)
-})
 </script>
 
 <template>
