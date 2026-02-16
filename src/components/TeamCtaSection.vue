@@ -17,6 +17,7 @@ const emit = defineEmits(['open-lead'])
           </div>
 
           <button
+            id="consultingBtn"
             type="button"
             class="w-full rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-900 shadow-sm transition hover:bg-white/95 sm:w-auto sm:px-10 sm:py-4"
             @click="emit('open-lead')"
