@@ -33,7 +33,16 @@ async function onSubmit() {
   const payload = {
     name: String(name.value || '').trim(),
     phone: normalizePhone(phone.value),
+    source_id: null,
     utm_source: utmSource.value,
+  }
+
+  if (window.location.host === 'zakup.com.kz') {
+    payload.source_id = 1
+  }
+
+  if (window.location.host === 'goszakup.com.kz') {
+    payload.source_id = 2
   }
 
   if (!payload.name) {
