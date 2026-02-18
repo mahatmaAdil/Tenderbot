@@ -4,6 +4,7 @@ import { computed, onBeforeUnmount, ref, watch } from 'vue'
 const props = defineProps({
   open: { type: Boolean, default: false },
   goalId: { type: String, default: 'submit_form_learn_more' },
+  source: { type: String, default: '' },
 })
 const emit = defineEmits(['close', 'success'])
 
@@ -15,6 +16,18 @@ const loading = ref(false)
 const error = ref('')
 const sent = ref(false)
 const goalFired = ref(false)
+
+const modalId = computed(() => `lead_modal_${props.source || 'unknown'}`)
+
+const safeSource = computed(() =>
+  String(props.source || 'unknown')
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9_]+/g, '_'),
+)
+
+const submitBtnId = computed(() => `modalSubmitBtn_${safeSource.value}`)
+const closeBtnId = computed(() => `modalCloseBtn_${safeSource.value}`)
 
 const utmSource = computed(() => {
   try {
@@ -59,11 +72,15 @@ async function submit() {
   if (loading.value) return
   error.value = ''
   sent.value = false
+
   const payload = {
     name: String(name.value || '').trim(),
     phone: normalizePhone(phone.value),
     source_id: null,
     utm_source: utmSource.value,
+
+    modal_id: modalId.value,
+    modal_source: props.source,
   }
 
   if (!payload.name) {
@@ -75,13 +92,10 @@ async function submit() {
     error.value = 'Введите телефон'
     return
   }
-  if (window.location.host === 'zakup.com.kz') {
-    payload.source_id = 1
-  }
 
-  if (window.location.host === 'goszakup.com.kz') {
-    payload.source_id = 2
-  }
+  const host = window.location.hostname
+  if (host === 'zakup.com.kz') payload.source_id = 1
+  else if (host === 'goszakup.com.kz') payload.source_id = 2
 
   loading.value = true
 
@@ -112,12 +126,25 @@ async function submit() {
     }
 
     if (!goalFired.value && typeof window !== 'undefined' && typeof window.ym === 'function') {
+      console.log('GOAL FIRED:', props.goalId)
+      goalFired.value = true
+
+      const ymParams = {
+        modal_id: modalId.value,
+        source: props.source || 'unknown',
+        utm_source: utmSource.value,
+        button_id: submitBtnId.value,
+      }
+
       try {
-        console.log('GOAL FIRED:', props.goalId)
-        window.ym(106181212, 'reachGoal', props.goalId)
-        console.log('METRIKA CONFIRMED:', props.goalId)
-        goalFired.value = true
-      } catch {}
+        window.ym(106181212, 'reachGoal', props.goalId, ymParams, () => {
+          console.log('METRIKA CONFIRMED:', props.goalId, ymParams)
+        })
+      } catch (e) {
+        console.warn('YM ERROR:', e)
+      }
+    } else if (!goalFired.value) {
+      console.warn('YM NOT AVAILABLE:', props.goalId)
     }
 
     sent.value = true
@@ -135,14 +162,14 @@ async function submit() {
 </script>
 
 <template>
-  <div v-if="open" class="fixed inset-0 z-50">
+  <div v-if="open" class="fixed inset-0 z-50" :data-modal-id="modalId">
     <div class="absolute inset-0 bg-black/60" @click="close"></div>
 
     <div
       class="relative mx-auto mt-16 w-[min(560px,calc(100%-32px))] rounded-2xl bg-white p-5 shadow-2xl"
     >
       <button
-        id="modalCloseBtn"
+        :id="closeBtnId"
         type="button"
         class="absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-xl text-#078EE6 hover:bg-slate-100"
         @click="close"
@@ -181,8 +208,7 @@ async function submit() {
         <div v-if="error" class="text-sm font-medium text-red-600">
           {{ error }}
         </div>
-
-        <button class="btn-primary mt-1" id="modalSubmitBtn" type="submit" :disabled="loading">
+        <button class="btn-primary mt-1" :id="submitBtnId" type="submit" :disabled="loading">
           {{ loading ? 'Отправляю…' : 'Отправить' }}
         </button>
 

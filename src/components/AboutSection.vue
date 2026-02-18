@@ -8,13 +8,17 @@ import icon3 from '@/assets/icons/icon3.svg'
 const METRIKA_ID = 106181212
 const GOAL_ID = 'submit_form_send_a_request'
 
+const FORM_SOURCE = 'about_section'
+const FORM_ID = 'lead_form_about_section'
+
 const name = ref('')
 const phone = ref('')
 
 const loading = ref(false)
 const error = ref('')
 const success = ref(false)
-
+const goalFired = ref(false)
+const submitBtnId = computed(() => `formBtn_${FORM_ID}`)
 const utmSource = computed(() => {
   if (typeof window === 'undefined') return ''
   return new URLSearchParams(window.location.search).get('utm_source') || ''
@@ -26,24 +30,48 @@ function normalizePhone(p) {
     .trim()
 }
 
+function reachYMGoal(goalId) {
+  if (typeof window === 'undefined') return
+  if (typeof window.ym !== 'function') {
+    console.warn('YM NOT AVAILABLE:', goalId)
+    return
+  }
+
+  const params = {
+    form_id: FORM_ID,
+    form_source: FORM_SOURCE,
+    utm_source: utmSource.value || '',
+    button_id: submitBtnId.value,
+  }
+
+  console.log('GOAL FIRED:', goalId, params)
+
+  try {
+    window.ym(METRIKA_ID, 'reachGoal', goalId, params, () =>
+      console.log('METRIKA CONFIRMED:', goalId, params),
+    )
+  } catch (e) {
+    console.warn('YM ERROR:', goalId, e)
+  }
+}
+
 async function onSubmit() {
   error.value = ''
   success.value = false
+  if (loading.value) return
 
   const payload = {
     name: String(name.value || '').trim(),
     phone: normalizePhone(phone.value),
     source_id: null,
     utm_source: utmSource.value,
+    form_id: FORM_ID,
+    form_source: FORM_SOURCE,
   }
 
-  if (window.location.host === 'zakup.com.kz') {
-    payload.source_id = 1
-  }
-
-  if (window.location.host === 'goszakup.com.kz') {
-    payload.source_id = 2
-  }
+  const host = window.location.hostname
+  if (host === 'zakup.com.kz') payload.source_id = 1
+  if (host === 'goszakup.com.kz') payload.source_id = 2
 
   if (!payload.name) {
     error.value = 'Введите имя'
@@ -81,9 +109,10 @@ async function onSubmit() {
       const msg = (data && (data.message || data.error)) || `Ошибка отправки (HTTP ${res.status})`
       throw new Error(msg)
     }
-    if (typeof window !== 'undefined' && typeof window.ym === 'function') {
-      console.log('GOAL FIRED:', GOAL_ID)
-      window.ym(METRIKA_ID, 'reachGoal', GOAL_ID)
+
+    if (!goalFired.value) {
+      goalFired.value = true
+      reachYMGoal(GOAL_ID)
     }
 
     success.value = true
@@ -199,7 +228,7 @@ async function onSubmit() {
               </div>
 
               <button
-                id="formBtn"
+                :id="submitBtnId"
                 type="submit"
                 class="mx-auto mt-2 h-10 w-[240px] rounded-lg bg-[#078EE6] text-sm font-semibold text-white transition hover:bg-blue-500 disabled:opacity-60"
                 :disabled="loading"
